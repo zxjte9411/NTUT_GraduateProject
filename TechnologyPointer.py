@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import talib
 
-
 data_base = sqlite3.connect('./db.sqlite3')
 # SQL operation
 df = pd.read_sql('select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="2302"',
@@ -115,12 +114,69 @@ class TechnologyPointer:
     def __init__(self, date='2019-04-12'):
         self.stock = self.get_stock(date)
 
+    # 取 180 天的股市資料
     def get_stock(self, date='2019-04-12'):
         user_select_date_index = int(df.loc[df['date'] == date].index[0])
         return df[user_select_date_index-180:user_select_date_index+1].reset_index(drop=True)
 
-    def get_xxx_profit(self, money=50000):
+    def get_PSY_profit(self, money=50000):
+        cash = TOTAL_ASSETS = money
+        buy_record = []
+        buy_count = 0
+        PSY = get_PSY(self.stock)
+        for i in range(12, len(PSY)):
+            if PSY['PSY'][i] > 75:
+                if buy_count >= 1:
+                    if PSY['close'][i] > sum(buy_record) / len(buy_record):
+                        buy_count = 0
+                        cash += PSY['close'][i] * 1000 * len(buy_record)
+                        buy_record.clear()
+                        # print(f'{str(PSY["date"][i]).split(" ")[0]} 賣出')
+                    else:
+                        pass
+                        # print(f'{str(PSY["date"][i]).split(" ")[0]} 已達 PSY 賣出標準，但不適合現在賣出')
+            elif PSY['PSY'][i] < 25:
+                if cash >= PSY['close'][i] * 1000:
+                    cash -= PSY['close'][i] * 1000
+                    buy_record.append(PSY['close'][i])
+                    buy_count += 1
+                    # print(f'{str(PSY["date"][i]).split(" ")[0]} 買入')
+                elif cash < PSY['close'][i] * 1000:
+                    # print('沒錢辣')
+                    pass
         
-        print(get_stock().head(10))
-        return # 獲利率
+        cash += float(PSY['close'][-1:]) * 1000 * len(buy_record)
+        return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
         
+    def get_DMI_profit(self, money=50000):
+        cash = TOTAL_ASSETS = 50000
+        buy_record = []
+        buy_count = 0
+        DMI = get_DMI(self.stock)
+        for i in range(1, len(DMI)-1, 1):
+            if DMI['+DI'][i-1] < DMI['-DI'][i-1]:
+                if DMI['+DI'][i] >= DMI['-DI'][i]:
+                    if DMI['+DI'][i+1] > DMI['-DI'][i+1]:
+                        if cash >= DMI['close'][i] * 1000:
+                            cash -= DMI['close'][i] * 1000
+                            buy_record.append(DMI['close'][i])
+                            buy_count += 1
+                            # print(f'{str(DMI["date"][i]).split(" ")[0]} 買入')
+                        elif cash < DMI['close'][i] * 1000:
+                            pass
+                            # print('沒錢辣')
+            elif DMI['+DI'][i-1] > DMI['-DI'][i-1]:
+                if DMI['+DI'][i] <= DMI['-DI'][i]:
+                    if DMI['+DI'][i+1] < DMI['-DI'][i+1]:
+                        if buy_count > 1:
+                            if DMI['close'][i] > sum(buy_record) / len(buy_record):
+                                buy_count = 0
+                                cash += DMI['close'][i] * 1000 * len(buy_record)
+                                buy_record.clear()
+                                # print(f'{str(DMI["date"][i]).split(" ")[0]} 賣出')
+                            else:
+                                pass
+                                # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
+        if buy_count > 0:
+            cash += float(DMI['close'][-1:]) * 1000 * len(buy_record)
+            return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
