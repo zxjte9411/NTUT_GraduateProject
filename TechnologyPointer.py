@@ -109,7 +109,7 @@ def get_DMI(priceData, period=14):
     DMI['ADX'] = round(talib.SMA(DMI['DX'], period), 2)
     return DMI
 
-def buy(day,money,count,tpname,plus):
+def buy(day,money,count,tpname,plus,stock):
     if(money  >=  stock['close'][day] * 1000):
         plus = plus + round(stock['close'][day]*1000)
         money = money - round(stock['close'][day]*1000)
@@ -117,7 +117,7 @@ def buy(day,money,count,tpname,plus):
         #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行買入","金額",round(stock['close'][day]*1000), "剩餘金額: ", money)
     return money, count, plus
 
-def sell(day,money,count,tpname,avg):
+def sell(day,money,count,tpname,avg,stock):
     if(count > 0 and round(stock['close'][day] * 1000) > avg):
         money = money + round(stock['close'][day] * 1000) * count        
         #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
@@ -203,9 +203,9 @@ class TechnologyPointer:
                 money,count,plus = buy(i,money,count,"OBV", plus)                     
             elif (self.stock["OBV"][i] > 0) and (self.stock["OBV"][i - 1] < 0):  
                 if(count > 0):
-                    money,count = sell(i,money,count,"OBV", plus/count)
+                    money,count = sell(i,money,count,"OBV", plus/count, self.stock)
                 else:
-                    money,count = sell(i,money,count,"OBV", plus)
+                    money,count = sell(i,money,count,"OBV", plus, self.stock)
         return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
     
     def get_AR_profit(self,money=50000):
@@ -213,10 +213,10 @@ class TechnologyPointer:
         plus = 0
         for i in range(len(self.stock["AR"])):
             if (self.stock["AR"][i] < 0.5):
-                money,count,plus = buy(i,money,count,"AR",plus)                
+                money,count,plus = buy(i,money,count,"AR",plus, self.stock)                
             elif (self.stock["AR"][i] > 1.5):
                 if(count > 0):
-                    money,count = sell(i,money,count,"AR",plus/count)
+                    money,count = sell(i,money,count,"AR",plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"AR",plus) 
         return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
