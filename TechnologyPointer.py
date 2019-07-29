@@ -109,6 +109,20 @@ def get_DMI(priceData, period=14):
     DMI['ADX'] = round(talib.SMA(DMI['DX'], period), 2)
     return DMI
 
+def buy(day,money,count,tpname,plus,stock):
+    if(money  >=  stock['close'][day] * 1000):
+        plus = plus + round(stock['close'][day]*1000)
+        money = money - round(stock['close'][day]*1000)
+        count = count + 1
+        #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行買入","金額",round(stock['close'][day]*1000), "剩餘金額: ", money)
+    return money, count, plus
+
+def sell(day,money,count,tpname,avg,stock):
+    if(count > 0 and round(stock['close'][day] * 1000) > avg):
+        money = money + round(stock['close'][day] * 1000) * count        
+        #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
+        count = 0
+    return money, count
 
 class TechnologyPointer:
     def __init__(self, date='2019-04-12'):
@@ -180,6 +194,48 @@ class TechnologyPointer:
         if buy_count > 0:
             cash += float(DMI['close'][-1:]) * 1000 * len(buy_record)
             return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
+
+
+    def get_OBV_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["OBV"])):
+            if (self.stock["OBV"][i] < 0) and (self.stock["OBV"][i - 1] > 0):
+                money,count,plus = buy(i,money,count,"OBV", plus)                     
+            elif (self.stock["OBV"][i] > 0) and (self.stock["OBV"][i - 1] < 0):  
+                if(count > 0):
+                    money,count = sell(i,money,count,"OBV", plus/count, self.stock)
+                else:
+                    money,count = sell(i,money,count,"OBV", plus, self.stock)
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+    
+    def get_AR_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["AR"])):
+            if (self.stock["AR"][i] < 0.5):
+                money,count,plus = buy(i,money,count,"AR",plus, self.stock)                
+            elif (self.stock["AR"][i] > 1.5):
+                if(count > 0):
+                    money,count = sell(i,money,count,"AR",plus/count, self.stock)
+                else:
+                    money,count = sell(i,money,count,"AR",plus) 
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+    
+    def get_BR_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["BR"])):
+            if (self.stock["BR"][i] * 100 < 80) and (self.stock["AR"][i] * 100 < 50):           
+                money,count,plus = buy(i,money,count,"BR",plus)
+            elif (self.stock["BR"][i] * 100 > 250) and (self.stock["AR"][i] * 100 > 150):
+                if(count > 0):
+                    money,count = sell(i,money,count,"BR",plus/count)
+                else:
+                    money,count = sell(i,money,count,"BR",plus)
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+
+    ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
 
     def get_KD_profit(self,money = 50000):
 
@@ -420,3 +476,4 @@ class TechnologyPointer:
             sma_yesterday = sma
             closing_price_slope_yesterday = (closing_price - closing_price_yesterday) / 1
         return (funds + thousand_shares * thousand_shares_price - money)/money
+
