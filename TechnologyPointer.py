@@ -234,7 +234,7 @@ class TechnologyPointer:
         count = 0
         plus = 0
         OBV = get_OBV(self.stock)
-        for i in range(len(OBV["OBV"])):
+        for i in range(1, len(OBV["OBV"])):
             if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0):
                 money,count,plus = buy(i,money,count,"OBV", plus, self.stock)                     
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):  
@@ -242,13 +242,13 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"OBV", plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"OBV", plus, self.stock)
-        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
     
     def get_AR_profit(self,money=50000):
         count = 0
         plus = 0
         AR = get_AR(self.stock)
-        for i in range(len(AR["AR"])):
+        for i in range(1, len(AR["AR"])):
             if (AR["AR"][i] < 0.5):
                 money,count,plus = buy(i,money,count,"AR",plus, self.stock)                
             elif (AR["AR"][i] > 1.5):
@@ -256,13 +256,14 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"AR",plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"AR",plus, self.stock) 
-        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
     
     def get_BR_profit(self,money=50000):
         count = 0
         plus = 0
         BR = get_BR(self.stock)
-        for i in range(len(BR["BR"])):
+        BR["AR"] = get_AR(self.stock)["AR"].reset_index(drop=True)
+        for i in range(1, len(BR["BR"])):
             if (BR["BR"][i] * 100 < 80) and (BR["AR"][i] * 100 < 50):           
                 money,count,plus = buy(i,money,count,"BR",plus, self.stock)
             elif (BR["BR"][i] * 100 > 250) and (BR["AR"][i] * 100 > 150):
@@ -270,7 +271,7 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"BR",plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"BR",plus, self.stock)
-        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
 
     ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
 
