@@ -19,6 +19,41 @@ df.rename(columns={'收盤價': 'close', '開盤價': 'open', '最高價': 'high
 # sort by date
 df = df.sort_values(by='date')
 
+def get_OBV(priceData):
+    OBV = pd.DataFrame(
+        {
+            'close': priceData['close'].reset_index(drop=True),
+            'volume': priceData['date'].reset_index(drop=True)        
+        }    
+    )
+    OBV['OBV'] = talib.OBV(OBV['close'], OBV['volume'])
+    return OBV
+
+def get_AR(priceData):
+    AR = pd.DataFrame(
+        {
+            'high': priceData['high'].reset_index(drop=True),
+            'open': priceData['open'].reset_index(drop=True),
+            'low': priceData['low'].reset_index(drop=True)        
+        }    
+    )
+
+    AR['AR'] = talib.SUM(AR.high - AR.open, timeperiod = 26) / talib.SUM(AR.open - AR.low, timeperiod = 26)
+    return AR
+
+def get_BR(priceData):
+    BR = pd.DataFrame(
+        {
+            'high': priceData['high'].reset_index(drop=True),
+            'open': priceData['open'].reset_index(drop=True),
+            'close': priceData['close'].reset_index(drop=True),
+            'low': priceData['low'].reset_index(drop=True)        
+        }    
+    )
+
+    BR["BR"] = talib.SUM(BR.high - BR.close.shift(1), timeperiod = 26) / talib.SUM(BR.close.shift(1) - BR.low, timeperiod = 26)
+    return BR
+
 
 def get_PSY(priceData, period=12):
     PSY = pd.DataFrame(
@@ -198,10 +233,11 @@ class TechnologyPointer:
     def get_OBV_profit(self,money=50000):
         count = 0
         plus = 0
-        for i in range(len(self.stock["OBV"])):
-            if (self.stock["OBV"][i] < 0) and (self.stock["OBV"][i - 1] > 0):
+        OBV = get_OBV(self.stock)
+        for i in range(len(OBV["OBV"])):
+            if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0):
                 money,count,plus = buy(i,money,count,"OBV", plus, self.stock)                     
-            elif (self.stock["OBV"][i] > 0) and (self.stock["OBV"][i - 1] < 0):  
+            elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):  
                 if(count > 0):
                     money,count = sell(i,money,count,"OBV", plus/count, self.stock)
                 else:
@@ -211,10 +247,11 @@ class TechnologyPointer:
     def get_AR_profit(self,money=50000):
         count = 0
         plus = 0
-        for i in range(len(self.stock["AR"])):
-            if (self.stock["AR"][i] < 0.5):
+        AR = get_AR(self.stock)
+        for i in range(len(AR["AR"])):
+            if (AR["AR"][i] < 0.5):
                 money,count,plus = buy(i,money,count,"AR",plus, self.stock)                
-            elif (self.stock["AR"][i] > 1.5):
+            elif (AR["AR"][i] > 1.5):
                 if(count > 0):
                     money,count = sell(i,money,count,"AR",plus/count, self.stock)
                 else:
@@ -224,10 +261,11 @@ class TechnologyPointer:
     def get_BR_profit(self,money=50000):
         count = 0
         plus = 0
-        for i in range(len(self.stock["BR"])):
-            if (self.stock["BR"][i] * 100 < 80) and (self.stock["AR"][i] * 100 < 50):           
+        BR = get_BR(self.stock)
+        for i in range(len(BR["BR"])):
+            if (BR["BR"][i] * 100 < 80) and (BR["AR"][i] * 100 < 50):           
                 money,count,plus = buy(i,money,count,"BR",plus, self.stock)
-            elif (self.stock["BR"][i] * 100 > 250) and (self.stock["AR"][i] * 100 > 150):
+            elif (BR["BR"][i] * 100 > 250) and (BR["AR"][i] * 100 > 150):
                 if(count > 0):
                     money,count = sell(i,money,count,"BR",plus/count, self.stock)
                 else:
