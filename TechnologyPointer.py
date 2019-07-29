@@ -200,7 +200,7 @@ class TechnologyPointer:
         plus = 0
         for i in range(len(self.stock["OBV"])):
             if (self.stock["OBV"][i] < 0) and (self.stock["OBV"][i - 1] > 0):
-                money,count,plus = buy(i,money,count,"OBV", plus)                     
+                money,count,plus = buy(i,money,count,"OBV", plus, self.stock)                     
             elif (self.stock["OBV"][i] > 0) and (self.stock["OBV"][i - 1] < 0):  
                 if(count > 0):
                     money,count = sell(i,money,count,"OBV", plus/count, self.stock)
