@@ -242,7 +242,7 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"OBV", plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"OBV", plus, self.stock)
-        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
+        return (self.stock["close"][len(self.stock)-1] * count * 1000) / 50000
     
     def get_AR_profit(self,money=50000):
         count = 0
@@ -256,7 +256,7 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"AR",plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"AR",plus, self.stock) 
-        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
+        return (self.stock["close"][len(self.stock)-1] * count * 1000) / 50000
     
     def get_BR_profit(self,money=50000):
         count = 0
@@ -271,7 +271,7 @@ class TechnologyPointer:
                     money,count = sell(i,money,count,"BR",plus/count, self.stock)
                 else:
                     money,count = sell(i,money,count,"BR",plus, self.stock)
-        return (money + round(self.stock["close"][len(self.stock)-1]) * count * 1000) / 50000
+        return (self.stock["close"][len(self.stock)-1] * count * 1000) / 50000
 
     ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
 
