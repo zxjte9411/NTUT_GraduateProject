@@ -181,6 +181,48 @@ class TechnologyPointer:
             cash += float(DMI['close'][-1:]) * 1000 * len(buy_record)
             return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
 
+
+    def get_OBV_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["OBV"])):
+            if (self.stock["OBV"][i] < 0) and (self.stock["OBV"][i - 1] > 0):
+                money,count,plus = buy(i,money,count,"OBV", plus, self.stock)                     
+            elif (self.stock["OBV"][i] > 0) and (self.stock["OBV"][i - 1] < 0):  
+                if(count > 0):
+                    money,count = sell(i,money,count,"OBV", plus/count, self.stock)
+                else:
+                    money,count = sell(i,money,count,"OBV", plus, self.stock)
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+    
+    def get_AR_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["AR"])):
+            if (self.stock["AR"][i] < 0.5):
+                money,count,plus = buy(i,money,count,"AR",plus, self.stock)                
+            elif (self.stock["AR"][i] > 1.5):
+                if(count > 0):
+                    money,count = sell(i,money,count,"AR",plus/count, self.stock)
+                else:
+                    money,count = sell(i,money,count,"AR",plus) 
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+    
+    def get_BR_profit(self,money=50000):
+        count = 0
+        plus = 0
+        for i in range(len(self.stock["BR"])):
+            if (self.stock["BR"][i] * 100 < 80) and (self.stock["AR"][i] * 100 < 50):           
+                money,count,plus = buy(i,money,count,"BR",plus)
+            elif (self.stock["BR"][i] * 100 > 250) and (self.stock["AR"][i] * 100 > 150):
+                if(count > 0):
+                    money,count = sell(i,money,count,"BR",plus/count)
+                else:
+                    money,count = sell(i,money,count,"BR",plus)
+        return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
+
+    ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
+
     def get_KD_profit(self,money = 50000):
 
         funds = money
