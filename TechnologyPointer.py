@@ -225,9 +225,8 @@ class TechnologyPointer:
                             else:
                                 pass
                                 # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
-        if buy_count > 0:
-            cash += float(DMI['close'][-1:]) * 1000 * len(buy_record)
-            return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
+        cash += float(DMI['close'][-1:]) * 1000 * len(buy_record)
+        return (cash-TOTAL_ASSETS) / TOTAL_ASSETS
 
 
     def get_OBV_profit(self,money=50000):
