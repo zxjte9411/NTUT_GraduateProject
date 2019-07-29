@@ -110,6 +110,19 @@ def get_DMI(priceData, period=14):
     return DMI
 
 
+def buy(day,money,count,tpname,plus,stock):
+    if(money  >=  stock['close'][day] * 1000):
+        plus = plus + round(stock['close'][day]*1000)
+        money = money - round(stock['close'][day]*1000)
+        count = count + 1      
+    return money, count, plus
+
+def sell(day,money,count,tpname,avg,stock):
+    if(count > 0 and round(stock['close'][day] * 1000) > avg):
+        money = money + round(stock['close'][day] * 1000) * count           
+        count = 0
+    return money, count
+
 class TechnologyPointer:
     def __init__(self, date='2019-04-12'):
         self.stock = self.get_stock(date)
@@ -216,9 +229,9 @@ class TechnologyPointer:
                 money,count,plus = buy(i,money,count,"BR",plus)
             elif (self.stock["BR"][i] * 100 > 250) and (self.stock["AR"][i] * 100 > 150):
                 if(count > 0):
-                    money,count = sell(i,money,count,"BR",plus/count)
+                    money,count = sell(i,money,count,"BR",plus/count, self.stock)
                 else:
-                    money,count = sell(i,money,count,"BR",plus)
+                    money,count = sell(i,money,count,"BR",plus, self.stock)
         return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
 
     ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
