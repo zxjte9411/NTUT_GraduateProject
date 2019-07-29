@@ -109,20 +109,6 @@ def get_DMI(priceData, period=14):
     DMI['ADX'] = round(talib.SMA(DMI['DX'], period), 2)
     return DMI
 
-def buy(day,money,count,tpname,plus,stock):
-    if(money  >=  stock['close'][day] * 1000):
-        plus = plus + round(stock['close'][day]*1000)
-        money = money - round(stock['close'][day]*1000)
-        count = count + 1
-        #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行買入","金額",round(stock['close'][day]*1000), "剩餘金額: ", money)
-    return money, count, plus
-
-def sell(day,money,count,tpname,avg,stock):
-    if(count > 0 and round(stock['close'][day] * 1000) > avg):
-        money = money + round(stock['close'][day] * 1000) * count        
-        #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
-        count = 0
-    return money, count
 
 class TechnologyPointer:
     def __init__(self, date='2019-04-12'):
@@ -476,4 +462,3 @@ class TechnologyPointer:
             sma_yesterday = sma
             closing_price_slope_yesterday = (closing_price - closing_price_yesterday) / 1
         return (funds + thousand_shares * thousand_shares_price - money)/money
-
