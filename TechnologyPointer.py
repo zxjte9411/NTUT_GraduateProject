@@ -218,7 +218,7 @@ class TechnologyPointer:
                 if(count > 0):
                     money,count = sell(i,money,count,"AR",plus/count, self.stock)
                 else:
-                    money,count = sell(i,money,count,"AR",plus) 
+                    money,count = sell(i,money,count,"AR",plus, self.stock) 
         return (money + round(self.stock["close"][-1]) * count * 1000) / 50000
     
     def get_BR_profit(self,money=50000):
@@ -226,7 +226,7 @@ class TechnologyPointer:
         plus = 0
         for i in range(len(self.stock["BR"])):
             if (self.stock["BR"][i] * 100 < 80) and (self.stock["AR"][i] * 100 < 50):           
-                money,count,plus = buy(i,money,count,"BR",plus)
+                money,count,plus = buy(i,money,count,"BR",plus, self.stock)
             elif (self.stock["BR"][i] * 100 > 250) and (self.stock["AR"][i] * 100 > 150):
                 if(count > 0):
                     money,count = sell(i,money,count,"BR",plus/count, self.stock)
