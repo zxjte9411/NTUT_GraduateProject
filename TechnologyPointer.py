@@ -166,6 +166,11 @@ class TechnologyPointer:
         user_select_date_index = int(df.loc[df['date'] == date].index[0]) 
         stock = df[user_select_date_index-390:user_select_date_index+1].reset_index(drop=True)
 
+        stock['K'], stock['D'] = talib.STOCH(stock['high'],stock['low'], stock['close'])
+        # 短周期6天 長周期14天
+        stock['RSI6'] = talib.RSI(stock['close'], timeperiod=6)
+        stock['RSI14'] = talib.RSI(stock['close'], timeperiod=14)
+        stock['SMA'] = talib.SMA(stock['close'], 6)
         stock["AR"] = talib.SUM(df.high - df.open, timeperiod = 26) / talib.SUM(df.open - df.low, timeperiod = 26)*100
         stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod = 26) / talib.SUM(df.close.shift(1) - df.low, timeperiod = 26)*100
 
@@ -305,10 +310,7 @@ class TechnologyPointer:
         # if 第一天的 K > D:
         #     KBiggerThanDOneDayBefore = True
 
-        k, d = talib.STOCH(self.stock['high'],
-                           self.stock['low'], self.stock['close'])
-
-        for date, close, K, D in zip(self.stock['date'], self.stock['close'], k, d):
+        for date, close, K, D in zip(self.stock['date'], self.stock['close'], self.stock['K'], self.stock['D']):
 
             # 判斷KD鈍化
             if K > 80:
@@ -382,11 +384,7 @@ class TechnologyPointer:
         RSIShort_under_RSILong_today = False
         RSIShort_under_RSILong_yesterday = False
 
-        # 短周期6天 長周期14天
-        RSI6 = talib.RSI(self.stock['close'], timeperiod=6)
-        RSI14 = talib.RSI(self.stock['close'], timeperiod=14)
-
-        for date, closing_price, RSIShort, RSILong in zip(self.stock['date'], self.stock['close'], RSI6, RSI14):
+        for date, closing_price, RSIShort, RSILong in zip(self.stock['date'], self.stock['close'], self.stock['RSI6'], self.stock['RSI14']):
 
             if RSIShort < RSILong:
                 RSIShort_under_RSILong_today = True
@@ -441,9 +439,7 @@ class TechnologyPointer:
         sma_yesterday = 0
         closing_price_slope_yesterday = 0
 
-        SMA = talib.SMA(self.stock['close'], 6)
-
-        for date, closing_price, sma in zip(self.stock['date'], self.stock['close'], SMA):
+        for date, closing_price, sma in zip(self.stock['date'], self.stock['close'], self.stock['SMA']):
 
             # 乖離率
             BIAS = (closing_price - sma) / sma
