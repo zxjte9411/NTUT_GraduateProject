@@ -31,24 +31,6 @@ def get_OBV(priceData):
     return OBV
 
 
-def get_AR(priceData):
-    return priceData['AR']
-
-
-def get_BR(priceData):
-    BR = pd.DataFrame(
-        {
-            'high': priceData['high'].reset_index(drop=True),
-            'open': priceData['open'].reset_index(drop=True),
-            'close': priceData['close'].reset_index(drop=True),
-            'low': priceData['low'].reset_index(drop=True)
-        }
-    )
-
-    BR["BR"] = talib.SUM(BR.high - BR.close.shift(1), timeperiod=8) / \
-        talib.SUM(BR.close.shift(1) - BR.low, timeperiod=8)
-    return BR
-
 
 def get_PSY(priceData, period=12):
     PSY = pd.DataFrame(
@@ -67,7 +49,7 @@ def get_PSY(priceData, period=12):
         psy_result[i] = int(
             ((difference_dir[i-period+1:i+1].sum())/period)*100)
     PSY['PSY'] = psy_result
-    return PSY
+    return PSY['PSY']
 
 
 def get_DMI(priceData, period=14):
@@ -167,6 +149,9 @@ class TechnologyPointer:
         stock = df[user_select_date_index -
                    390:user_select_date_index+1].reset_index(drop=True)
 
+        stock["AR"] = talib.SUM(df.high - df.open, timeperiod = 26) / talib.SUM(df.open - df.low, timeperiod = 26)*100
+        stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod = 26) / talib.SUM(df.close.shift(1) - df.low, timeperiod = 26)*100
+        stock['PSY'] = get_PSY(stock)
         stock['K'], stock['D'] = talib.STOCH(
             stock['high'], stock['low'], stock['close'])
         # 短周期6天 長周期14天
@@ -184,7 +169,7 @@ class TechnologyPointer:
         cash = TOTAL_ASSETS = money
         buy_record = []
         buy_count = 0
-        PSY = get_PSY(self.stock)
+        PSY = self.stock
         for i in range(12, len(PSY)):
             if PSY['PSY'][i] > 75:
                 if buy_count >= 1:
