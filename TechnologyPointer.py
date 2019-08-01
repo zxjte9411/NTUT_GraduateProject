@@ -31,24 +31,6 @@ def get_OBV(priceData):
     return OBV
 
 
-def get_AR(priceData):
-    return priceData['AR']
-
-
-def get_BR(priceData):
-    BR = pd.DataFrame(
-        {
-            'high': priceData['high'].reset_index(drop=True),
-            'open': priceData['open'].reset_index(drop=True),
-            'close': priceData['close'].reset_index(drop=True),
-            'low': priceData['low'].reset_index(drop=True)
-        }
-    )
-
-    BR["BR"] = talib.SUM(BR.high - BR.close.shift(1), timeperiod=8) / \
-        talib.SUM(BR.close.shift(1) - BR.low, timeperiod=8)
-    return BR
-
 
 def get_PSY(priceData, period=12):
     PSY = pd.DataFrame(
