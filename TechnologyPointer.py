@@ -67,7 +67,7 @@ def get_PSY(priceData, period=12):
         psy_result[i] = int(
             ((difference_dir[i-period+1:i+1].sum())/period)*100)
     PSY['PSY'] = psy_result
-    return PSY
+    return PSY['PSY']
 
 
 def get_DMI(priceData, period=14):
@@ -168,14 +168,16 @@ class TechnologyPointer:
 
         stock["AR"] = talib.SUM(df.high - df.open, timeperiod = 26) / talib.SUM(df.open - df.low, timeperiod = 26)*100
         stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod = 26) / talib.SUM(df.close.shift(1) - df.low, timeperiod = 26)*100
-
+        stock['PSY'] = get_PSY(stock)
+        stock['+DI'] = get_DMI(stock)['+DM']
+        stock['-DI'] = get_DMI(stock)['-DM']
         return stock[30:].reset_index(drop=True)
 
     def get_PSY_profit(self, money=50000):
         cash = TOTAL_ASSETS = money
         buy_record = []
         buy_count = 0
-        PSY = get_PSY(self.stock)
+        PSY = self.stock
         for i in range(12, len(PSY)):
             if PSY['PSY'][i] > 75:
                 if buy_count >= 1:
@@ -204,7 +206,7 @@ class TechnologyPointer:
         cash = TOTAL_ASSETS = 50000
         buy_record = []
         buy_count = 0
-        DMI = get_DMI(self.stock)
+        DMI = self.stock
         for i in range(1, len(DMI)-1, 1):
             if DMI['+DI'][i-1] < DMI['-DI'][i-1]:
                 if DMI['+DI'][i] >= DMI['-DI'][i]:
