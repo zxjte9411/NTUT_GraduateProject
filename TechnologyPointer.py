@@ -145,7 +145,7 @@ def buy(day, money, count, tpname, plus, stock):
         plus = plus + round(stock['close'][day]*1000)
         money = money - round(stock['close'][day]*1000)
         count = count + 1
-       
+
     return money, count, plus
 
 
@@ -153,7 +153,7 @@ def sell(day, money, count, tpname, avg, stock):
     if(count > 0 and round(stock['close'][day] * 1000) > avg):
         money = money + round(stock['close'][day] * 1000) * count
         count = 0
-        
+
     return money, count
 
 
@@ -163,16 +163,20 @@ class TechnologyPointer:
 
     # 取 180 天的股市資料
     def get_stock(self, date='2019-04-12'):
-        user_select_date_index = int(df.loc[df['date'] == date].index[0]) 
-        stock = df[user_select_date_index-390:user_select_date_index+1].reset_index(drop=True)
+        user_select_date_index = int(df.loc[df['date'] == date].index[0])
+        stock = df[user_select_date_index -
+                   390:user_select_date_index+1].reset_index(drop=True)
 
-        stock['K'], stock['D'] = talib.STOCH(stock['high'],stock['low'], stock['close'])
+        stock['K'], stock['D'] = talib.STOCH(
+            stock['high'], stock['low'], stock['close'])
         # 短周期6天 長周期14天
         stock['RSI6'] = talib.RSI(stock['close'], timeperiod=6)
         stock['RSI14'] = talib.RSI(stock['close'], timeperiod=14)
         stock['SMA'] = talib.SMA(stock['close'], 6)
-        stock["AR"] = talib.SUM(df.high - df.open, timeperiod = 26) / talib.SUM(df.open - df.low, timeperiod = 26)*100
-        stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod = 26) / talib.SUM(df.close.shift(1) - df.low, timeperiod = 26)*100
+        stock["AR"] = talib.SUM(df.high - df.open, timeperiod=26) / \
+            talib.SUM(df.open - df.low, timeperiod=26)*100
+        stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod=26) / \
+            talib.SUM(df.close.shift(1) - df.low, timeperiod=26)*100
 
         return stock[30:].reset_index(drop=True)
 
@@ -274,11 +278,11 @@ class TechnologyPointer:
     def get_BR_profit(self, money=50000):
         count = 0
         plus = 0
-        cash = money 
+        cash = money
         for i in range(1, len(self.stock["BR"])):
-            if (self.stock["BR"][i]  < 50):
+            if (self.stock["BR"][i] < 50):
                 cash, count, plus = buy(i, cash, count, "BR", plus, self.stock)
-            elif (self.stock["BR"][i]  > 400): 
+            elif (self.stock["BR"][i] > 400):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "BR",
                                        plus/count, self.stock)
