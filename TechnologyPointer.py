@@ -145,7 +145,7 @@ def buy(day, money, count, tpname, plus, stock):
         plus = plus + round(stock['close'][day]*1000)
         money = money - round(stock['close'][day]*1000)
         count = count + 1
-        print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行買入","金額",round(stock['close'][day]*1000), "剩餘金額: ", money)
+       
     return money, count, plus
 
 
@@ -153,7 +153,7 @@ def sell(day, money, count, tpname, avg, stock):
     if(count > 0 and round(stock['close'][day] * 1000) > avg):
         money = money + round(stock['close'][day] * 1000) * count
         count = 0
-        print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
+        
     return money, count
 
 
