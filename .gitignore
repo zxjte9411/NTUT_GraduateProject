@@ -132,4 +132,5 @@ dmypy.json
 test.py
 tmp.py
 log.*
+.vsocde
 # End of https://www.gitignore.io/api/python
