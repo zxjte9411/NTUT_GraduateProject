@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-tw">
+
+<head>
+    <title>股市小幫手</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="{% url 'home' %}">股市小幫手</a>
+
+                </nav>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="mt-3" for="">股票代號</label>
+                                <select class="form-control" name="stock_num" id="stock_num">
+                                    <option>請選擇...</option>
+                                    {% for i in stock_nums %}
+                                    <option>{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label class="mt-3" for="">投資金額</label>
+                                <input type="text" class="form-control" name="money" id="money" aria-describedby="helpId"
+                                    placeholder="輸入">
+                            </div>
+                            <button class="btn btn-primary" type="submit">submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
