@@ -1,23 +1,13 @@
-
 import sqlite3
 import numpy as np
 import pandas as pd
 import talib
 
 data_base = sqlite3.connect('./db.sqlite3')
-# SQL operation
-df = pd.read_sql('select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="2302"',
-                 data_base,
-                 # 依照日期排
-                 # index_col=['日期'],
-                 parse_dates=['日期'])
+stock_nums = pd.read_sql(
+    'select DISTINCT 證券代號 from daily_price ORDER BY 證券代號', data_base)['證券代號'].values
 # close data base connect
 data_base.close()
-# rename the columns of dataframe
-df.rename(columns={'收盤價': 'close', '開盤價': 'open', '最高價': 'high', '日期': 'date',
-                   '最低價': 'low', '成交股數': 'volume'}, inplace=True)
-# sort by date
-df = df.sort_values(by='date')
 
 
 def get_OBV(priceData):
@@ -29,7 +19,6 @@ def get_OBV(priceData):
     )
     OBV['OBV'] = talib.OBV(OBV['close'], OBV['volume'])
     return OBV
-
 
 
 def get_PSY(priceData, period=12):
@@ -114,11 +103,10 @@ def get_DMI(priceData, period=14):
     for i in range(len(DMI)):
         DMI.loc[i, '+DI'] = round(DMI['+ADM'][i] / DMI['ATR'][i] * 100, 0)
         DMI.loc[i, '-DI'] = round(DMI['-ADM'][i] / DMI['ATR'][i] * 100, 0)
-        DMI.loc[i, 'DX'] = round(
-            abs(DMI['+DI'][i] - DMI['-DI'][i]) / (DMI['+DI'][i] + DMI['-DI'][i]) * 100, 0)
+        # DMI.loc[i, 'DX'] = round(abs(DMI['+DI'][i] - DMI['-DI'][i]) / (DMI['+DI'][i] + DMI['-DI'][i]) * 100, 0)
     DMI = DMI.loc[::-1]
     DMI = DMI.reset_index(drop=True)
-    DMI['ADX'] = round(talib.SMA(DMI['DX'], period), 2)
+    # DMI['ADX'] = round(talib.SMA(DMI['DX'], period), 2)
     return DMI
 
 
@@ -140,17 +128,29 @@ def sell(day, money, count, tpname, avg, stock):
 
 
 class TechnologyPointer:
-    def __init__(self, date='2019-04-12'):
+    def __init__(self, date='2019-04-12', stock_number='2302'):
+        data_base = sqlite3.connect('./db.sqlite3')
+        self.stock_number = stock_number
+        self.df = pd.read_sql(f'select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="{stock_number}"',
+                              data_base, parse_dates=['日期'])
+        self.df.rename(columns={'收盤價': 'close', '開盤價': 'open', '最高價': 'high', '日期': 'date',
+                                          '最低價': 'low', '成交股數': 'volume'}, inplace=True)
+
+        self.df.sort_values(by='date')                                          
+        data_base.close()
         self.stock = self.get_stock(date)
 
     # 取 180 天的股市資料
     def get_stock(self, date='2019-04-12'):
-        user_select_date_index = int(df.loc[df['date'] == date].index[0])
-        stock = df[user_select_date_index -
-                   390:user_select_date_index+1].reset_index(drop=True)
+        user_select_date_index = int(
+            self.df.loc[self.df['date'] == date].index[0])
+        stock = self.df[user_select_date_index -
+                        390:user_select_date_index+1].reset_index(drop=True)
 
-        stock["AR"] = talib.SUM(df.high - df.open, timeperiod = 26) / talib.SUM(df.open - df.low, timeperiod = 26)*100
-        stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod = 26) / talib.SUM(df.close.shift(1) - df.low, timeperiod = 26)*100
+        stock["AR"] = talib.SUM(self.df.high - self.df.open, timeperiod=26) / \
+            talib.SUM(self.df.open - self.df.low, timeperiod=26)*100
+        stock["BR"] = talib.SUM(self.df.high - self.df.close.shift(1), timeperiod=26) / \
+            talib.SUM(self.df.close.shift(1) - self.df.low, timeperiod=26)*100
         stock['PSY'] = get_PSY(stock)
         stock['K'], stock['D'] = talib.STOCH(
             stock['high'], stock['low'], stock['close'])
@@ -158,10 +158,10 @@ class TechnologyPointer:
         stock['RSI6'] = talib.RSI(stock['close'], timeperiod=6)
         stock['RSI14'] = talib.RSI(stock['close'], timeperiod=14)
         stock['SMA'] = talib.SMA(stock['close'], 6)
-        stock["AR"] = talib.SUM(df.high - df.open, timeperiod=26) / \
-            talib.SUM(df.open - df.low, timeperiod=26)*100
-        stock["BR"] = talib.SUM(df.high - df.close.shift(1), timeperiod=26) / \
-            talib.SUM(df.close.shift(1) - df.low, timeperiod=26)*100
+        stock["AR"] = talib.SUM(self.df.high - self.df.open, timeperiod=26) / \
+            talib.SUM(self.df.open - self.df.low, timeperiod=26)*100
+        stock["BR"] = talib.SUM(self.df.high - self.df.close.shift(1), timeperiod=26) / \
+            talib.SUM(self.df.close.shift(1) - self.df.low, timeperiod=26)*100
 
         return stock[30:].reset_index(drop=True)
 
@@ -274,8 +274,6 @@ class TechnologyPointer:
                 else:
                     cash, count = sell(i, cash, count, "BR", plus, self.stock)
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
-
-    ##print("OBV獲利率:", (money + round(df["close"][-1]) * count * 1000) / 50000)
 
     def get_KD_profit(self, money=50000):
 
