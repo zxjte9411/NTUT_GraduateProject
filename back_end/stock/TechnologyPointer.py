@@ -345,12 +345,14 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(close)
+                    self.KD_detail.append({'date':date,'close':close,'type':'買入'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'KD黃金交叉 買入')
             elif KUnder20ThreeDays:
                 if funds >= thousand_shares_price:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(close)
+                    self.KD_detail.append({'date':date,'close':close,'type':'買入'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'K<20 3天了 買入')
             # 死亡交叉，賣出
             elif not(KBiggerThanDToday) and KBiggerThanDOneDayBefore and not(KAbove80ThreeDays) and not(KUnder20ThreeDays) and len(closing_price_buy) > 0:
@@ -358,12 +360,14 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.KD_detail.append({'date':date,'close':close,'type':'賣出'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'KD死亡交叉 賣出')
             elif KAbove80ThreeDays and len(closing_price_buy) > 0:
                 if close > sum(closing_price_buy) / len(closing_price_buy):
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.KD_detail.append({'date':date,'close':close,'type':'賣出'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'K>80 3天了 賣出')
             # #其他資訊
             # else:
@@ -400,6 +404,7 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
+                    self.RSI_detail.append({'date':date,'close':closing_price,'type':'買入'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI6 OR RSI14 < 20 買入')
             # RSI黃金交叉，買入信號
             elif not(RSIShort_under_RSILong_today) and RSIShort_under_RSILong_yesterday:
@@ -407,6 +412,7 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
+                    self.RSI_detail.append({'date':date,'close':closing_price,'type':'買入'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI黃金交叉 買入')
             # RSI>80，賣出信號
             elif (RSIShort > 80 or RSILong > 80) and len(closing_price_buy) > 0:
@@ -414,6 +420,7 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.RSI_detail.append({'date':date,'close':closing_price,'type':'賣出'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI6 OR RSI14 > 80 賣出')
             # RSI死亡交叉，賣出信號
             elif RSIShort_under_RSILong_today and not(RSIShort_under_RSILong_yesterday) and len(closing_price_buy) > 0:
@@ -421,6 +428,7 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.RSI_detail.append({'date':date,'close':closing_price,'type':'賣出'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI死亡交叉 賣出')
 
             RSIShort_under_RSILong_yesterday = RSIShort_under_RSILong_today
@@ -463,6 +471,7 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',A點買入')
             # #B點:乖離不大，趨勢發展，預期乖離變大，為買入訊號。(沒跌破均線)
             # elif BIAS < 0.3 and closing_price_above_MA_today and closing_price_slope > 0 :
@@ -477,6 +486,7 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',C點買入')
             # D點:價格自高點跌破均線，且跌深，價格偏離均線很多(假設值)，可能修正，為買進訊號
             elif sma - closing_price < 3 and closing_price_slope_yesterday < 0 and closing_price_slope > 0:
@@ -484,6 +494,7 @@ class TechnologyPointer:
                     funds = funds - thousand_shares_price
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',D點買入')
             # E點:處上漲階段，價格短期漲幅過大(假設值)，導致與平均線偏離太多(假設值)，預期短期會有獲利賣壓，價格會有修正，為賣出訊號
             elif closing_price_slope > 0.5 and closing_price - sma > 3 and len(closing_price_buy) > 0:
@@ -491,6 +502,7 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',E點賣出')
             # F點:趨勢往下跑且股價從上跌破MA，趨勢反轉、死亡交叉，為賣出訊號
             elif closing_price_above_MA_yesterday and not(closing_price_above_MA_today) and len(closing_price_buy) > 0:
@@ -498,6 +510,7 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',F點賣出')
             # #G點:乖離不大(假設值)，趨勢加速發展(可能要設閥值)，預期乖離擴大，價格下跌速度快，且股價沒有突破MA，為賣出訊號
             # elif BIAS < 0.3 and closing_price_slope > 0 and not(closing_price_above_MA_today and len(closing_price_buy) > 0):
@@ -512,6 +525,7 @@ class TechnologyPointer:
                     funds = funds + thousand_shares * thousand_shares_price
                     thousand_shares = 0
                     closing_price_buy = []
+                    self.MA_detail.append({'date':date,'close':closing_price,'type':'賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',H點賣出')
 
             # 紀錄前一天的狀態
@@ -520,3 +534,5 @@ class TechnologyPointer:
             closing_price_slope_yesterday = (
                 closing_price - closing_price_yesterday) / 1
         return (funds + thousand_shares * thousand_shares_price - money)/money
+
+
