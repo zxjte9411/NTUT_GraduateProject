@@ -150,6 +150,7 @@ class TechnologyPointer:
         #{
         #    'date': '2019-08-08',
         #    'close' : '5'
+        #    'type' : 買\賣
         # }
 
     # 取 180 天的股市資料
@@ -189,7 +190,7 @@ class TechnologyPointer:
                         buy_count = 0
                         cash += PSY['close'][i] * 1000 * len(buy_record)
                         buy_record.clear()
-                        # print(f'{str(PSY["date"][i]).split(" ")[0]} 賣出')
+                        self.PSY_detail.append({ 'date': PSY[:'date'][i], 'close': PSY['close'][i], 'type': '賣出'})
                     else:
                         pass
                         # print(f'{str(PSY["date"][i]).split(" ")[0]} 已達 PSY 賣出標準，但不適合現在賣出')
@@ -198,7 +199,7 @@ class TechnologyPointer:
                     cash -= PSY['close'][i] * 1000
                     buy_record.append(PSY['close'][i])
                     buy_count += 1
-                    # print(f'{str(PSY["date"][i]).split(" ")[0]} 買入')
+                    self.PSY_detail.append({ 'date': PSY[:'date'][i], 'close': PSY['close'][i], 'type': '買入'})
                 elif cash < PSY['close'][i] * 1000:
                     # print('沒錢辣')
                     pass
@@ -219,7 +220,7 @@ class TechnologyPointer:
                             cash -= DMI['close'][i] * 1000
                             buy_record.append(DMI['close'][i])
                             buy_count += 1
-                            # print(f'{str(DMI["date"][i]).split(" ")[0]} 買入')
+                            self.PSY_detail.append({ 'date': DMI[:'date'][i], 'close': DMI['close'][i], 'type': '買入'})
                         elif cash < DMI['close'][i] * 1000:
                             pass
                             # print('沒錢辣')
@@ -232,7 +233,7 @@ class TechnologyPointer:
                                 cash += DMI['close'][i] * \
                                     1000 * len(buy_record)
                                 buy_record.clear()
-                                # print(f'{str(DMI["date"][i]).split(" ")[0]} 賣出')
+                                self.PSY_detail.append({ 'date': DMI[:'date'][i], 'close': DMI['close'][i], 'type': '賣出'})
                             else:
                                 pass
                                 # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
