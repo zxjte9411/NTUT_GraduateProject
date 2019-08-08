@@ -7,11 +7,11 @@ from django.shortcuts import render
 from .TechnologyPointer import TechnologyPointer, stock_nums
 import pandas as pd
 
+
 def home(request):
     if request.method == 'POST':
         form = dict(request.POST)
-        technology_pointer = TechnologyPointer(
-            stock_number=form['stock_num'][0])
+        technology_pointer = TechnologyPointer(stock_number=form['stock_num'][0])
 
         data = {
             'DMI': f"{round(technology_pointer.get_DMI_profit(int(form['money'][0]))*100, 2)}%",
@@ -24,6 +24,6 @@ def home(request):
             'MA': f"{round(technology_pointer.get_MA_profit(int(form['money'][0]))*100, 2)}%"
         }
 
-        return render(request, 'resulr.html', {'stock_nums': stock_nums, 'data': data})
+        return render(request, 'resulr.html', {'data': data})
     return render(request, 'home.html', {'stock_nums': stock_nums})
 
