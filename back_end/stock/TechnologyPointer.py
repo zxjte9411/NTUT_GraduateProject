@@ -139,6 +139,18 @@ class TechnologyPointer:
         self.df.sort_values(by='date')                                          
         data_base.close()
         self.stock = self.get_stock(date)
+        self.PSY_detail = []
+        self.DMI_detail = []
+        self.OBV_detail = []
+        self.RSI_detail = []
+        self.AR_detail = []
+        self.BR_detail = []
+        self.KD_detail = []
+        self.MA_detail = []
+        #{
+        #    'date': '2019-08-08',
+        #    'close' : '5'
+        # }
 
     # 取 180 天的股市資料
     def get_stock(self, date='2019-04-12'):
