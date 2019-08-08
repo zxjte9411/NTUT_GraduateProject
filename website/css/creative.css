@@ -46,15 +46,19 @@ h6 {
 }
 
 .bg-primary {
-  background-color: #F58D03 !important;
+  background-color: #ffb66b !important;
 }
 
 .bg-dark {
   background-color: #212529 !important;
 }
 
+.bg-light {
+  background-color: lightgoldenrodyellow !important;
+}
+
 .text-faded {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 section {
@@ -178,7 +182,7 @@ img::-moz-selection {
     background-color: transparent;
   }
   #mainNav .navbar-brand {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.7);
   }
   #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
     color: #fff;
@@ -188,7 +192,7 @@ img::-moz-selection {
   }
   #mainNav .navbar-nav > li.nav-item > a.nav-link,
   #mainNav .navbar-nav > li.nav-item > a.nav-link:focus {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.7);
   }
 
   #mainNav .navbar-nav > li.dropdown > a.nav-link,
@@ -238,7 +242,7 @@ img::-moz-selection {
 header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 56px);
-  background-image: url("../img/header.jpg");
+  background-image: url("../img/header2.jpg");
   background-position: center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -302,7 +306,6 @@ header.masterhead hr {
   margin-top: 30px;
   margin-bottom: 30px;
 }
-
 
 header.masterhead h1 {
   font-size: 2rem;
@@ -649,4 +652,8 @@ form.login a:hover
 #container1{
   width : 600px;
   height : 300px;
+}
+
+.header_text_color {
+  color: #000000;
 }
