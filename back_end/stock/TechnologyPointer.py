@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import talib
 
-data_base = sqlite3.connect('../db.sqlite3')
+data_base = sqlite3.connect('./db.sqlite3')
 stock_nums = pd.read_sql(
     'select DISTINCT 證券代號 from daily_price ORDER BY 證券代號', data_base)['證券代號'].values
 # close data base connect
