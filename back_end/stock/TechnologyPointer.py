@@ -178,6 +178,18 @@ class TechnologyPointer:
 
         return stock[30:].reset_index(drop=True)
 
+    def get_all_detail(self):
+        return {
+            'PSY': self.PSY_detail,
+            'DMI': self.DMI_detail,
+            'OBV': self.OBV_detail,
+            'RSI': self.RSI_detail,
+            'AR': self.AR_detail,
+            'BR': self.BR_detail,
+            'KD': self.KD_detail,
+            'MA': self.MA_detail
+       }
+
     def get_PSY_profit(self, money=50000):
         cash = TOTAL_ASSETS = money
         buy_record = []
