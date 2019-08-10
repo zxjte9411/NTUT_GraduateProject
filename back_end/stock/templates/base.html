@@ -10,8 +10,9 @@
   <link
     href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
     rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap&subset=chinese-traditional" rel="stylesheet">
   <!-- Bootstrap core CSS-->
-  <link href="{% static 'stock/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- Custom fonts for this template-->
   <link href="{% static 'stock/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
   <!-- Page level plugin CSS-->
@@ -24,7 +25,7 @@
 
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="trading.html">股市小幫手</a>
+    <a class="navbar-brand" href="{% url 'trading' %}">股市小幫手</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
       data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
       aria-label="Toggle navigation">
@@ -110,14 +111,17 @@
   <!-- <a class="scroll-to-top rounded" href="#page-top">
     <i class="fa fa-angle-up"></i>
   </a> -->
-  <!-- Bootstrap core JavaScript-->
-  <script src="{% static 'stock/vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'stock/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <!-- Core plugin JavaScript-->
-  <script src="{% static 'stock/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-  <!-- Custom scripts for all pages-->
-  <script src="{% static 'stock/js/sb-admin.min.js' %}"></script>
 
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <!-- <script src="{% static 'stock/vendor/jquery-easing/jquery.easing.min.js' %}"></script> -->
+  <!-- Custom scripts for all pages-->
+  <!-- <script src="{% static 'stock/js/sb-admin.min.js' %}"></script> -->
 </body>
 
 </html>
