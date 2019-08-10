@@ -129,7 +129,7 @@ def sell(day, money, count, tpname, avg, stock):
 
 class TechnologyPointer:
     def __init__(self, date='2019-04-12', stock_number='2302'):
-        data_base = sqlite3.connect('../db.sqlite3')
+        data_base = sqlite3.connect('./db.sqlite3')
         self.stock_number = stock_number
         self.df = pd.read_sql(f'select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="{stock_number}"',
                               data_base, parse_dates=['日期'])
@@ -202,7 +202,7 @@ class TechnologyPointer:
                         buy_count = 0
                         cash += PSY['close'][i] * 1000 * len(buy_record)
                         buy_record.clear()
-                        self.PSY_detail.append({ 'date': PSY[:'date'][i], 'close': PSY['close'][i], 'type': '賣出'})
+                        self.PSY_detail.append({ 'date': PSY['date'][i], 'close': PSY['close'][i], 'type': '賣出'})
                     else:
                         pass
                         # print(f'{str(PSY["date"][i]).split(" ")[0]} 已達 PSY 賣出標準，但不適合現在賣出')
@@ -211,7 +211,7 @@ class TechnologyPointer:
                     cash -= PSY['close'][i] * 1000
                     buy_record.append(PSY['close'][i])
                     buy_count += 1
-                    self.PSY_detail.append({ 'date': PSY[:'date'][i], 'close': PSY['close'][i], 'type': '買入'})
+                    self.PSY_detail.append({ 'date': PSY['date'][i], 'close': PSY['close'][i], 'type': '買入'})
                 elif cash < PSY['close'][i] * 1000:
                     # print('沒錢辣')
                     pass
@@ -232,7 +232,7 @@ class TechnologyPointer:
                             cash -= DMI['close'][i] * 1000
                             buy_record.append(DMI['close'][i])
                             buy_count += 1
-                            self.PSY_detail.append({ 'date': DMI[:'date'][i], 'close': DMI['close'][i], 'type': '買入'})
+                            self.PSY_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '買入'})
                         elif cash < DMI['close'][i] * 1000:
                             pass
                             # print('沒錢辣')
@@ -245,7 +245,7 @@ class TechnologyPointer:
                                 cash += DMI['close'][i] * \
                                     1000 * len(buy_record)
                                 buy_record.clear()
-                                self.PSY_detail.append({ 'date': DMI[:'date'][i], 'close': DMI['close'][i], 'type': '賣出'})
+                                self.PSY_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '賣出'})
                             else:
                                 pass
                                 # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
