@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{{ block.super }}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="#">交易</a>
+  </li>
+  <li class="breadcrumb-item active">歷史投資模擬</li>
+</ol>
+<h1>歷史投資模擬</h1>
+<hr>
+<!-- Icon Cards-->
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">股票編號</label>
+      <input type="stockid" class="form-control" id="inputStockId" placeholder="股票編號">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">模擬投資金額</label>
+      <select class="form-control">
+        <option>50000</option>
+        <option>100000</option>
+        <option>150000</option>
+        <option>200000</option>
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">確定</button>
+</form>
+
+{% endblock body %}

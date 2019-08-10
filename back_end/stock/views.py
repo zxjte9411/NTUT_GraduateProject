@@ -7,6 +7,17 @@ from django.shortcuts import render
 from .TechnologyPointer import TechnologyPointer, stock_nums
 import pandas as pd
 
+def contact(request):
+    return render(request, 'contact.html')
+
+def trading(request):
+    return render(request, 'trading.html')
+
+def withdraw(request):
+    return render(request, 'withdraw.html')
+
+def stockPoint(request):
+    return render(request, 'stockPoint.html')
 
 def home(request):
     if request.method == 'POST':

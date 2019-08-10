@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{{ block.super }}
+
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">Contact</a>
+      </li>
+      <li class="breadcrumb-item active">聯絡我們</li>
+    </ol>
+    <h1>聯絡我們</h1>
+    <hr>
+    <!-- Icon Cards-->
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">電子郵件</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">內容</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="給點建議吧~"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">送出</button>
+    </form>
+
+{% endblock body %}
