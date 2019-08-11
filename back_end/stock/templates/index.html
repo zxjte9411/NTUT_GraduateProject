@@ -1,15 +1,15 @@
+{% load staticfiles %}
 <!doctype html>
-<html lang="en">
+<html lang="zh-TW">
 
 <head>
   <title>股市小幫手</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/creative.css">
+  <link rel="stylesheet" href="{% static 'stock/css/creative.css' %}">
 </head>
 
 <body>
@@ -208,11 +208,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
-  <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+  <script src="{% static 'stock/vendor/jquery-easing/jquery.easing.min.js' %}s"></script>
+  <script src="{% static 'stock/vendor/scrollreveal/scrollreveal.min.js' %}"></script>
+  <script src="{% static 'stock/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 
-  <script src="js/creative.js"></script>
+  <script src="{% static 'stock/js/creative.js' %}"></script>
 </body>
 
 </html>
