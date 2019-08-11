@@ -9,14 +9,12 @@
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/creative.css">
-	<!-- <link rel="stylesheet" href="css/creative.min.css"> -->
 </head>
 
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+	<nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top">
 		<div class="container">
 			<a class="navbar-brand js-scroll-trigger" href="#page-top">股市小幫手</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -24,7 +22,7 @@
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
+			<div id="navbarResponsive" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="#about">關於</a>
@@ -33,55 +31,62 @@
 						<a class="nav-link js-scroll-trigger" href="#services">服務</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#portfolio">交易資訊</a>
+						<a class="nav-link js-scroll-trigger" href="#portfolio">分析結果</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="#contact">聯絡我們</a>
 					</li>
 					<!-- <li class="nav-item">
-								<a class="nav-link js-scroll-trigger" href="signin.html">SignIn</a>
-							</li> -->
-					<!-- <li class="dropdown">
-								<a class="nav-link js-scroll-trigger" data-toggle="dropdown" href="#">mypage
-								<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<div class="col-lg-12 mx">
-									<a class =list-group-item href="myprofile.html">My Profile</></a>
-									<a class =list-group-item href="wallet.html">My Wallet</></a>
-									<a class =list-group-item href="index.html">Sign Out</a>
-									</div>
-								</ul>
-							</li> -->
+						<a class="nav-link js-scroll-trigger" href="signin.html">SignIn</a>
+					</li> -->
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-black d-flex">
+	<header id="page-top" class="masthead text-center text-black d-flex">
 		<div class="container my-auto">
 			<div class="row">
-				<div class="col-lg-10 mx-auto">
+				<div class="col-lg-10 mx-auto header_title">
 					<h1 class="text-uppercase header_text_color">
-						<strong>STOCK MARKET HLEPER</strong>
+						<strong>股市小幫手</strong>
 					</h1>
-					<hr>
 				</div>
-				<div class="col-lg-8 mx-auto">
-					<p class="text-faded mb-5 header_text_color">Practical, Reliable, Wealthy.</p>
-					<a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Start Trading</a>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-lg-10 mx-auto header_title">
+					<p class="text-faded">實用 可靠 富裕</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto header_title mt-4">
+					<a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">開始導覽</a>
 				</div>
 			</div>
 		</div>
 	</header>
 
-	<section class="bg-primary" id="about">
+	<section id="about" class="bg-primary">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 mx-auto text-center">
-					<h2 class="section-heading text-black">ACCOUNT BALANCE</h2>
+					<h2 class="section-heading text-black">關於網站</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
 					<hr class="btn-dark my-4">
-					<p class="text-faded mb-4">Simple introduction HERE</p>
-					<a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<p class="text-faded mb-4">簡單清楚的介紹</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">網站介紹</a>
 				</div>
 			</div>
 		</div>
@@ -91,59 +96,68 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2 class="section-heading">What can we do?</h2>
+					<h2 class="section-heading">我們可以做什麼？</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 text-center">
 					<hr class="my-4">
 				</div>
 			</div>
 		</div>
 		<div class="container">
+			<div class="row mb-4">
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box mx-auto service-text">
+						<h3 class="">股價分析</h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box mx-auto service-text">
+						<h3 class="">獲利比較</h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box mx-auto service-text">
+						<h3 class="">免費通知</h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box mx-auto service-text">
+						<h3 class="">發大財</h3>
+					</div>
+				</div>
+			</div>
 			<div class="row">
-				<div class="col-lg-3 col-md-6 text-center">
-					<div class="service-box mt-5 mx-auto">
-						<i class="fa fa-3x fa-diamond text-primary mb-3 sr-icons"></i>
-						<h3 class="mb-3">Stop Limit / Stop Loss</h3>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 text-center">
-					<div class="service-box mt-5 mx-auto">
-						<i class="fa fa-3x fa-paper-plane text-primary mb-3 sr-icons"></i>
-						<h3 class="mb-3">Guaranteed Stop</h3>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 text-center">
-					<div class="service-box mt-5 mx-auto">
-						<i class="fa fa-3x fa-bell text-primary mb-3 sr-icons"></i>
-						<h3 class="mb-3">Free Notifications</h3>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 text-center">
-					<div class="service-box mt-5 mx-auto">
-						<i class="fa fa-3x fa-dollar text-primary mb-3 sr-icons"></i>
-						<h3 class="mb-3">Become Rich</h3>
-					</div>
-				</div>
 				<div class="col-lg-8 mx-auto text-center">
-					<a class="btn btn-primary btn-xl js-scroll-trigger" href="#portfolio">Learn More</a>
+					<a class="btn btn-primary btn-xl js-scroll-trigger" href="#portfolio">看更多</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="p-0" id="portfolio">
-		<div class="container-fluid p-0">
-			<div class="row no-gutters popup-gallery">
+	<section class="bg-primary text-black" id="portfolio">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<h2 class="">分析結果</h2>
+				</div>
 			</div>
-		</div>
-	</section>
-
-	<section class="bg-primary text-black">
-		<div class="container text-center">
-			<h2 class="mb-4">Explore!</h2>
-			<hr class="my-4 btn-dark">
-			<p class="text-faded mb-4">Trade the world’s most popular markets and explore endless trading options.</p>
-			<p class="text-faded mb-4">We offer thousands of financial instruments, FREE real time quotes and online support.
-			</p>
-			<a class="btn btn-dark btn-xl sr-button" href="loading.html">Look over now!</a>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<hr class="my-4 btn-dark">
+				</div>
+			</div>
+			<div class="row mb-4">
+				<div class="col-lg-8 mx-auto text-center">
+					<p class="text-faded">最新的指標分析結果就在這裡！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<a class="btn btn-dark btn-xl sr-button" href="loading.html">進行分析</a>
+				</div>
+			</div>
 		</div>
 	</section>
 
@@ -151,9 +165,17 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 mx-auto text-center">
-					<h2 class="section-heading">Find us everywhere!</h2>
+					<h2 class="section-heading">聯絡我們</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
 					<hr class="my-4">
-					<p class="mb-5">Trade anywhere, anytime using our various platforms.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<p class="mb-5">在各個平台使用網頁來觀看我們的投資建議</p>
 				</div>
 			</div>
 			<div class="row">
@@ -184,6 +206,13 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="vendor/scrollreveal/scrollreveal.min.js"></script>
+	<script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+	<script src="js/creative.js"></script>
 </body>
 
 </html>
