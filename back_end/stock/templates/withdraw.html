@@ -12,12 +12,12 @@
 <h1>歷史投資模擬</h1>
 <hr>
 <!-- Icon Cards-->
-<form action="" method="post">
+<form action="" method="">
   {% csrf_token %}
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="inputEmail4">股票編號</label>
-      <select class="form-control" name="stock_num" id="stock_num">
+      <select id="select_1" class="form-control" name="stock_num" id="stock_num">
         <option>請選擇...</option>
         {% for i in stock_nums %}
         <option>{{ i }}</option>
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group col-md-4">
       <label for="inputPassword4">模擬投資金額</label>
-      <select class="form-control" name="money" id="money">
+      <select id="select_2" class="form-control" name="money" id="money">
         <option>50000</option>
         <option>100000</option>
         <option>150000</option>
@@ -34,7 +34,23 @@
       </select>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">確定</button>
 </form>
+<button id="button_submit" type="submit" class="btn btn-primary">確定</button>
+
+<div id="result" class="card my-3 " style="display: none">
+  <div class="card-header">
+    <i class="fa fa-table"></i> 個指標獲利率估算 </div>
+  <div class="card-body">
+    <table id="dataTable" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>指標</th>
+          <th>獲利率</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
 
 {% endblock body %}
