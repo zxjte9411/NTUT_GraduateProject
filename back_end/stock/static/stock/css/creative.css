@@ -41,8 +41,13 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+h6,p {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
+  margin: 0;
+}
+
+p {
+  font-size: 1.25rem;
 }
 
 .bg-primary {
@@ -211,7 +216,7 @@ img::-moz-selection {
   }
   #mainNav.navbar-shrink {
     border-bottom: 1px solid rgba(33, 37, 41, 0.1);
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.7);
   }
   #mainNav.navbar-shrink .navbar-brand {
     color: #F58D03;
@@ -265,7 +270,7 @@ header.masthead p {
 
 @media (min-width: 768px) {
   header.masthead p {
-    font-size: 1rem;
+    font-size: 1.25rem;
   }
 }
 
@@ -427,7 +432,11 @@ header.masterhead p {
 }
 
 .btn-xl {
+  width: 20%;
   padding: 1rem 2rem;
+  text-align: justify;
+  text-justify: distribute-all-lines;
+  text-align-last: justify;
 }
 
 .btn-primary {
@@ -656,4 +665,15 @@ form.login a:hover
 
 .header_text_color {
   color: #000000;
+  text-align: justify;
+  text-justify: distribute-all-lines;
+  text-align-last: justify;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.service-text{
+  text-align: center;
+  /* margin-top: 10%;
+  margin-bottom: 10%; */
 }
