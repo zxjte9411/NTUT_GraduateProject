@@ -261,15 +261,16 @@ class TechnologyPointer:
             if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0):
                 cash, count, plus = buy(
                     i, cash, count, "OBV", plus, self.stock)
-                self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '買入'})
+                self.OBV_detail.append({ 'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '買入'})
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "OBV",
                                        plus/count, self.stock)
-                    self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '賣出'})
+                    #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
+                    self.OBV_detail.append({ 'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "OBV", plus, self.stock)
-                    self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '賣出'})
+                    self.OBV_detail.append({ 'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
 
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
