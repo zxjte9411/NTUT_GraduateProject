@@ -232,7 +232,7 @@ class TechnologyPointer:
                             cash -= DMI['close'][i] * 1000
                             buy_record.append(DMI['close'][i])
                             buy_count += 1
-                            self.PSY_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '買入'})
+                            self.DMI_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '買入'})
                         elif cash < DMI['close'][i] * 1000:
                             pass
                             # print('沒錢辣')
@@ -245,7 +245,7 @@ class TechnologyPointer:
                                 cash += DMI['close'][i] * \
                                     1000 * len(buy_record)
                                 buy_record.clear()
-                                self.PSY_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '賣出'})
+                                self.DMI_detail.append({ 'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '賣出'})
                             else:
                                 pass
                                 # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
@@ -261,12 +261,15 @@ class TechnologyPointer:
             if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0):
                 cash, count, plus = buy(
                     i, cash, count, "OBV", plus, self.stock)
+                self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '買入'})
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "OBV",
                                        plus/count, self.stock)
+                    self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "OBV", plus, self.stock)
+                    self.OBV_detail.append({ 'date': OBV['date'][i], 'close': OBV['close'][i], 'type': '賣出'})
 
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
@@ -277,12 +280,15 @@ class TechnologyPointer:
         for i in range(1, len(self.stock["AR"])):
             if (self.stock["AR"][i] < 0.5):
                 cash, count, plus = buy(i, cash, count, "AR", plus, self.stock)
+                self.AR_detail.append({ 'date': AR['date'][i], 'close': AR['close'][i], 'type': '買入'})
             elif (self.stock["AR"][i] > 1.5):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "AR",
                                        plus/count, self.stock)
+                    self.AR_detail.append({ 'date': AR['date'][i], 'close': AR['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "AR", plus, self.stock)
+                    self.AR_detail.append({ 'date': AR['date'][i], 'close': AR['close'][i], 'type': '賣出'})
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_BR_profit(self, money=50000):
@@ -292,12 +298,15 @@ class TechnologyPointer:
         for i in range(1, len(self.stock["BR"])):
             if (self.stock["BR"][i] < 50):
                 cash, count, plus = buy(i, cash, count, "BR", plus, self.stock)
+                self.BR_detail.append({ 'date': BR['date'][i], 'close': BR['close'][i], 'type': '買入'})
             elif (self.stock["BR"][i] > 400):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "BR",
                                        plus/count, self.stock)
+                    self.BR_detail.append({ 'date': BR['date'][i], 'close': BR['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "BR", plus, self.stock)
+                    self.BR_detail.append({ 'date': BR['date'][i], 'close': BR['close'][i], 'type': '賣出'})
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_KD_profit(self, money=50000):
