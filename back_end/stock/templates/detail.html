@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load stock_tags %}
+{% block body %}
+{{ block.super }}
+{% csrf_token %}
+<div class="form-row">
+  <!-- <div class="form-group col-md-4">
+    <label for="inputStock">股票編號</label>
+    <select class="form-control" name="stock_num" id="stock_num">
+      <option>請選擇...</option>
+      {% for i in stock_nums %}
+      <option>{{ i }}</option>
+      {% endfor %}
+    </select>
+  </div> -->
+  <div class="form-group col-md-4">
+    <label for="inputPassword4">指標類型</label>
+    <select class="form-control" name="tptype" id="tptype">
+      <!-- <option>請選擇...</option> -->
+      <option>OBV</option>
+      <option>DMI</option>
+      <option>KD</option>
+      <option>AR</option>
+      <option>BR</option>
+      <option>RSI</option>
+      <option>MA</option>
+      <option>PSY</option>
+    </select>
+  </div>
+  <div class="form-group col-md-4 d-flex align-items-end">
+    <button id="button_submit_detail" type="submit" class="btn btn-primary">確定</button>
+  </div>
+</div>
+<!-- Example DataTables Card-->
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fa fa-table"></i> 投資訊息 </div>
+  <div id="result" class="card-body">
+    <table class="table table-bordered" width="100%" cellspacing="0">
+      <thead class="thead-light">
+        <tr>
+          <th>股票代號</th>
+          <th>預算</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>{{ stock_num }}</th>
+          <th>{{ money }} 元</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fa fa-table"></i> Data Table</div>
+  <div id="result" class="card-body">
+    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+      <thead class="thead-light">
+        <tr>
+          <th>日期</th>
+          <th>收盤價</th>
+          <th>買/賣</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in detail_data %}
+        <tr>
+          {% for i in data %}
+          <th>{{ data|get_dict_value:i }}</th>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<form>
+  <input type='hidden' id="money" name="money" value="{{ money }}" />
+  <input type='hidden' id="stock_num" name="stock_num" value="{{ stock_num }}" />
+</form>
+
+{% endblock body %}

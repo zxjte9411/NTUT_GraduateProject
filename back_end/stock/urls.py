@@ -8,5 +8,6 @@ urlpatterns = [
     path("contact", views.contact, name='contact'),
     path("trading", views.trading, name='trading'),
     path("withdraw", views.withdraw, name='withdraw'),
+    path("withdraw/detail", views.detail, name='withdraw_detail'),
     path("stockPoint", views.stockPoint, name='stockPoint')
 ]

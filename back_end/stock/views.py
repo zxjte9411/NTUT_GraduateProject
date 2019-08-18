@@ -3,6 +3,7 @@ from django.http import HttpResponse
 # Create your views here.
 
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 
 from .TechnologyPointer import TechnologyPointer, stock_nums
 import pandas as pd
@@ -13,8 +14,30 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+@require_http_methods(['POST'])
+def detail(request):
+    form = dict(request.POST)
+    if request.is_ajax():
+        technology_pointer = TechnologyPointer('2019-04-12', form['stock_num'][0])
+        data = technology_pointer.get_all_detail(int(form['money'][0]))
+        data['status'] = 1
+        return HttpResponse(json.dumps(data))
+    technology_pointer = TechnologyPointer('2019-04-12', form['return_stock_num'][0])
+    data = technology_pointer.get_all_detail(int(form['return_money'][0]))
+    money = int(form['return_money'][0])
+    stock_num = form['return_stock_num'][0]
+    return render(request, 'detail.html', {'stock_num': stock_num, 'money': money, 'detail_data': data['details']['OBV']})
+
+
 def trading(request):
-    return render(request, 'trading.html')
+    if request.method == 'POST':
+        form = dict(request.POST)
+        technology_pointer = TechnologyPointer(
+            '2019-04-12', form['stock_num'][0])
+        data = technology_pointer.get_all_detail()
+        data['status'] = 1
+        return HttpResponse(json.dumps(data))
+    return render(request, 'trading.html', {'stock_nums': stock_nums})
 
 
 def withdraw(request):
