@@ -191,7 +191,7 @@ class TechnologyPointer:
                         cash += PSY['close'][i] * 1000 * len(buy_record)
                         buy_record.clear()
                         self.PSY_detail.append(
-                            {'date': PSY['date'][i], 'close': PSY['close'][i], 'type': '賣出'})
+                            {'date': str(PSY['date'][i]).split(" ")[0], 'close': PSY['close'][i], 'type': '賣出'})
                     else:
                         pass
                         # print(f'{str(PSY["date"][i]).split(" ")[0]} 已達 PSY 賣出標準，但不適合現在賣出')
@@ -201,7 +201,7 @@ class TechnologyPointer:
                     buy_record.append(PSY['close'][i])
                     buy_count += 1
                     self.PSY_detail.append(
-                        {'date': PSY['date'][i], 'close': PSY['close'][i], 'type': '買入'})
+                        {'date': str(PSY['date'][i]).split(" ")[0], 'close': PSY['close'][i], 'type': '買入'})
                 elif cash < PSY['close'][i] * 1000:
                     # print('沒錢辣')
                     pass
@@ -223,7 +223,7 @@ class TechnologyPointer:
                             buy_record.append(DMI['close'][i])
                             buy_count += 1
                             self.DMI_detail.append(
-                                {'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '買入'})
+                                {'date': str(DMI['date'][i]).split(" ")[0], 'close': DMI['close'][i], 'type': '買入'})
                         elif cash < DMI['close'][i] * 1000:
                             pass
                             # print('沒錢辣')
@@ -237,7 +237,7 @@ class TechnologyPointer:
                                     1000 * len(buy_record)
                                 buy_record.clear()
                                 self.DMI_detail.append(
-                                    {'date': DMI['date'][i], 'close': DMI['close'][i], 'type': '賣出'})
+                                    {'date': str(DMI['date'][i]).split(" ")[0], 'close': DMI['close'][i], 'type': '賣出'})
                             else:
                                 pass
                                 # print(f'{str(DMI["date"][i]).split(" ")[0]} 已達 DMI 賣出標準，但不適合現在賣出')
@@ -254,18 +254,18 @@ class TechnologyPointer:
                 cash, count, plus = buy(
                     i, cash, count, "OBV", plus, self.stock)
                 self.OBV_detail.append(
-                    {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '買入'})
+                    {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "OBV",
                                        plus/count, self.stock)
                     #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
                     self.OBV_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "OBV", plus, self.stock)
                     self.OBV_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
 
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
@@ -277,17 +277,17 @@ class TechnologyPointer:
             if (self.stock["AR"][i] < 0.5):
                 cash, count, plus = buy(i, cash, count, "AR", plus, self.stock)
                 self.AR_detail.append(
-                    {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '買入'})
+                    {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["AR"][i] > 1.5):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "AR",
                                        plus/count, self.stock)
                     self.AR_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "AR", plus, self.stock)
                     self.AR_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_BR_profit(self, money=50000):
@@ -298,17 +298,17 @@ class TechnologyPointer:
             if (self.stock["BR"][i] < 50):
                 cash, count, plus = buy(i, cash, count, "BR", plus, self.stock)
                 self.BR_detail.append(
-                    {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '買入'})
+                    {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["BR"][i] > 400):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "BR",
                                        plus/count, self.stock)
                     self.BR_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "BR", plus, self.stock)
                     self.BR_detail.append(
-                        {'date': self.stock['date'][i], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_KD_profit(self, money=50000):
@@ -369,7 +369,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(close)
                     self.KD_detail.append(
-                        {'date': date, 'close': close, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': close, 'type': '買入'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'KD黃金交叉 買入')
             elif KUnder20ThreeDays:
                 if funds >= thousand_shares_price:
@@ -377,7 +377,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(close)
                     self.KD_detail.append(
-                        {'date': date, 'close': close, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': close, 'type': '買入'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'K<20 3天了 買入')
             # 死亡交叉，賣出
             elif not(KBiggerThanDToday) and KBiggerThanDOneDayBefore and not(KAbove80ThreeDays) and not(KUnder20ThreeDays) and len(closing_price_buy) > 0:
@@ -386,7 +386,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.KD_detail.append(
-                        {'date': date, 'close': close, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': close, 'type': '賣出'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'KD死亡交叉 賣出')
             elif KAbove80ThreeDays and len(closing_price_buy) > 0:
                 if close > sum(closing_price_buy) / len(closing_price_buy):
@@ -394,7 +394,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.KD_detail.append(
-                        {'date': date, 'close': close, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': close, 'type': '賣出'})
                     # print(date, 'close =', close, 'K =', round(K,2), 'D =', round(D,2), 'K>80 3天了 賣出')
             # #其他資訊
             # else:
@@ -432,7 +432,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
                     self.RSI_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '買入'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI6 OR RSI14 < 20 買入')
             # RSI黃金交叉，買入信號
             elif not(RSIShort_under_RSILong_today) and RSIShort_under_RSILong_yesterday:
@@ -441,7 +441,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
                     self.RSI_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '買入'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI黃金交叉 買入')
             # RSI>80，賣出信號
             elif (RSIShort > 80 or RSILong > 80) and len(closing_price_buy) > 0:
@@ -450,7 +450,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.RSI_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '賣出'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI6 OR RSI14 > 80 賣出')
             # RSI死亡交叉，賣出信號
             elif RSIShort_under_RSILong_today and not(RSIShort_under_RSILong_yesterday) and len(closing_price_buy) > 0:
@@ -459,7 +459,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.RSI_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '賣出'})
                     # print(date, ',close =', closing_price, ',RSI6 =', round(RSIShort,2), ',RSI14 =', round(RSILong,2), ',RSI死亡交叉 賣出')
 
             RSIShort_under_RSILong_yesterday = RSIShort_under_RSILong_today
@@ -503,7 +503,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',A點買入')
             # #B點:乖離不大，趨勢發展，預期乖離變大，為買入訊號。(沒跌破均線)
             # elif BIAS < 0.3 and closing_price_above_MA_today and closing_price_slope > 0 :
@@ -519,7 +519,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',C點買入')
             # D點:價格自高點跌破均線，且跌深，價格偏離均線很多(假設值)，可能修正，為買進訊號
             elif sma - closing_price < 3 and closing_price_slope_yesterday < 0 and closing_price_slope > 0:
@@ -528,7 +528,7 @@ class TechnologyPointer:
                     thousand_shares += 1
                     closing_price_buy.append(closing_price)
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '買入'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '買入'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',D點買入')
             # E點:處上漲階段，價格短期漲幅過大(假設值)，導致與平均線偏離太多(假設值)，預期短期會有獲利賣壓，價格會有修正，為賣出訊號
             elif closing_price_slope > 0.5 and closing_price - sma > 3 and len(closing_price_buy) > 0:
@@ -537,7 +537,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',E點賣出')
             # F點:趨勢往下跑且股價從上跌破MA，趨勢反轉、死亡交叉，為賣出訊號
             elif closing_price_above_MA_yesterday and not(closing_price_above_MA_today) and len(closing_price_buy) > 0:
@@ -546,7 +546,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',F點賣出')
             # #G點:乖離不大(假設值)，趨勢加速發展(可能要設閥值)，預期乖離擴大，價格下跌速度快，且股價沒有突破MA，為賣出訊號
             # elif BIAS < 0.3 and closing_price_slope > 0 and not(closing_price_above_MA_today and len(closing_price_buy) > 0):
@@ -562,7 +562,7 @@ class TechnologyPointer:
                     thousand_shares = 0
                     closing_price_buy = []
                     self.MA_detail.append(
-                        {'date': date, 'close': closing_price, 'type': '賣出'})
+                        {'date': str(date).split(" ")[0], 'close': closing_price, 'type': '賣出'})
                     # print(date, ',close =', closing_price, ',MA =', round(sma,2), ',H點賣出')
 
             # 紀錄前一天的狀態
@@ -583,14 +583,14 @@ class TechnologyPointer:
         self.get_MA_profit(money)
 
         return {
-            'details': [
-                {'PSY': self.PSY_detail},
-                {'DMI': self.DMI_detail},
-                {'OBV': self.OBV_detail},
-                {'RSI': self.RSI_detail},
-                {'AR': self.AR_detail},
-                {'BR': self.BR_detail},
-                {'KD': self.KD_detail},
-                {'MA': self.MA_detail}
-            ]
+            'details': {
+                'PSY': self.PSY_detail,
+                'DMI': self.DMI_detail,
+                'OBV': self.OBV_detail,
+                'RSI': self.RSI_detail,
+                'AR': self.AR_detail,
+                'BR': self.BR_detail,
+                'KD': self.KD_detail,
+                'MA': self.MA_detail
+            }
         }
