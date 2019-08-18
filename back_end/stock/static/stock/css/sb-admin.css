@@ -226,7 +226,7 @@ body.fixed-nav {
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler {
-  background-color: rgb(112, 201, 243);
+  background-color:lightgoldenrodyellow;
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler a i {
@@ -359,7 +359,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 
 @media (min-width: 992px) {
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
-    background: rgb(112, 201, 243);
+    background: lightgoldenrodyellow;
   }
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a {
     color: white !important;
@@ -512,5 +512,5 @@ form.login input[type="text"]
     letter-spacing: 1px;
 }
 .bg-dark {
-  background-color:rgb(37, 109, 241) !important;
+  background-color:#ffb66b !important;
 }
