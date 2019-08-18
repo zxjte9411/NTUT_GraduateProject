@@ -2,7 +2,35 @@
 
 {% block body %}
 {{ block.super }}
-
+{% csrf_token %}
+<div class="form-row">
+  <div class="form-group col-md-4">
+    <label for="inputStock">股票編號</label>
+    <select class="form-control" name="stock_num" id="stock_num">
+      <option>請選擇...</option>
+      {% for i in stock_nums %}
+      <option>{{ i }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputPassword4">指標類型</label>
+    <select class="form-control" name="tptype" id="tptype">
+      <!-- <option>請選擇...</option> -->
+      <option>OBV</option>
+      <option>DMI</option>
+      <option>KD</option>
+      <option>AR</option>
+      <option>BR</option>
+      <option>RSI</option>
+      <option>MA</option>
+      <option>PSY</option>
+    </select>
+  </div>
+  <div class="form-group col-md-4 d-flex align-items-end">
+    <button id="button_submit_trading" type="submit" class="btn btn-primary">確定</button>
+  </div>
+</div>
 
 <!-- Area Chart Example-->
 <div class="card mb-3">
@@ -14,62 +42,24 @@
   </div>
 </div>
 <!-- Example DataTables Card-->
+
 <div class="card mb-3">
   <div class="card-header">
     <i class="fa fa-table"></i> Data Table</div>
-  <div class="card-body">
+  <div id="result" class="card-body" style="display: none">
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Bid</th>
-          <th>Ask</th>
-          <th>Variation</th>
-          <th>Time</th>
+          <th>日期</th>
+          <th>收盤價</th>
+          <th>買/賣</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Apple</td>
-          <td>100</td>
-          <td>100</td>
-          <td>61</td>
-          <td>2011/04/25</td>
-
-        </tr>
-        <tr>
-          <td>Orange</td>
-          <td>100</td>
-          <td>100</td>
-          <td>63</td>
-          <td>2011/07/25</td>
-
-        </tr>
-        <tr>
-          <td>Banana</td>
-          <td>100</td>
-          <td>100</td>
-          <td>66</td>
-          <td>2009/01/12</td>
-
-        </tr>
-        <tr>
-          <td>Papaya</td>
-          <td>100</td>
-          <td>100</td>
-          <td>22</td>
-          <td>2012/03/29</td>
-        </tr>
       </tbody>
     </table>
   </div>
 </div>
-<div class="card mb-3">
-  <div class="card-header">
-    <i class="fa fa-dollar"></i> Trade</div>
-  <div class="card-body">
 
-  </div>
-</div>
 
 {% endblock body %}
