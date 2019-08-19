@@ -247,7 +247,7 @@ class TechnologyPointer:
         cash = money
         OBV = get_OBV(self.stock)
         for i in range(1, len(OBV["OBV"])):
-            if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0 and money >= self.stock['close'][i] * 1000):
+            if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0 and cash >= self.stock['close'][i] * 1000):
                 cash, count, plus = buy(
                     i, cash, count, plus, self.stock)
                 self.OBV_detail.append(
@@ -267,7 +267,7 @@ class TechnologyPointer:
         cash = money
         for i in range(1, len(self.stock["AR"])):
             print(self.stock["AR"][i])
-            if (self.stock["AR"][i] < 120 and money >= self.stock['close'][i] * 1000):   
+            if (self.stock["AR"][i] < 120 and cash >= self.stock['close'][i] * 1000):   
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.AR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
@@ -284,7 +284,7 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["BR"])):
-            if (self.stock["BR"][i] < 50 and money >= self.stock['close'][i] * 1000):
+            if (self.stock["BR"][i] < 50 and cash >= self.stock['close'][i] * 1000):
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.BR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
