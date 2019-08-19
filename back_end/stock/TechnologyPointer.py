@@ -261,7 +261,7 @@ class TechnologyPointer:
                                        plus/count, self.stock)
                     #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
                     self.OBV_detail.append(
-                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
                 else:
                     cash, count = sell(i, cash, count, "OBV", plus, self.stock)
                     self.OBV_detail.append(
@@ -283,7 +283,7 @@ class TechnologyPointer:
                     cash, count = sell(i, cash, count, "AR",
                                        plus/count, self.stock)
                     self.AR_detail.append(
-                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
                 else:
                     cash, count = sell(i, cash, count, "AR", plus, self.stock)
                     self.AR_detail.append(
@@ -304,7 +304,7 @@ class TechnologyPointer:
                     cash, count = sell(i, cash, count, "BR",
                                        plus/count, self.stock)
                     self.BR_detail.append(
-                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
                 else:
                     cash, count = sell(i, cash, count, "BR", plus, self.stock)
                     self.BR_detail.append(
