@@ -268,11 +268,11 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["AR"])):
-            if (self.stock["AR"][i] < 0.25):
+            if (self.stock["AR"][i] < 0.8):
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.AR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
-            elif (self.stock["AR"][i] > 1.85):
+            elif (self.stock["AR"][i] > 1.5):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
                     cash, count,plus = sell(i, cash, count, self.stock)
                     self.AR_detail.append(
