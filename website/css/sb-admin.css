@@ -5,6 +5,7 @@ html {
 
 body {
   overflow-x: hidden;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
 }
 
 body.sticky-footer {
@@ -226,7 +227,7 @@ body.fixed-nav {
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler {
-  background-color: rgb(112, 201, 243);
+  background-color: lightgoldenrodyellow;
 }
 
 #mainNav.fixed-top.navbar-dark .sidenav-toggler a i {
@@ -359,7 +360,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 
 @media (min-width: 992px) {
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
-    background: rgb(112, 201, 243);
+    background: lightgoldenrodyellow;
   }
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a {
     color: white !important;
@@ -370,7 +371,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
   }
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level,
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-third-level {
-    background: rgb(112, 201, 243);
+    background: lightgoldenrodyellow;
   }
 }
 
@@ -512,5 +513,9 @@ form.login input[type="text"]
     letter-spacing: 1px;
 }
 .bg-dark {
-  background-color:rgb(37, 109, 241) !important;
+  background-color:#ffb66b !important;
+}
+
+.nav-title{
+  color:#000 !important;
 }
