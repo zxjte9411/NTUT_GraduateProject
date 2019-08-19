@@ -123,7 +123,7 @@ def sell(day, money, count, stock):
     if(count > 0 ):
         money = money + round(stock['close'][day] * 1000) * count
         count = 0
-    return money, count
+    return money, count , 0
 
 
 class TechnologyPointer:
@@ -256,7 +256,7 @@ class TechnologyPointer:
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count = sell(i, cash, count, self.stock)
+                    cash, count,plus = sell(i, cash, count, self.stock)
                     #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
                     self.OBV_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
@@ -274,7 +274,7 @@ class TechnologyPointer:
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["AR"][i] > 1.85):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count = sell(i, cash, count, self.stock)
+                    cash, count,plus = sell(i, cash, count, self.stock)
                     self.AR_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                
@@ -291,7 +291,7 @@ class TechnologyPointer:
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["BR"][i] > 400):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count = sell(i, cash, count, self.stock)
+                    cash, count,plus = sell(i, cash, count, self.stock)
                     self.BR_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
             
