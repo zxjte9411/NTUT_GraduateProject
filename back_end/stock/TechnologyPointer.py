@@ -274,16 +274,16 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["AR"])):
-            if (self.stock["AR"][i] < 0.5):
+            if (self.stock["AR"][i] < 0.25):
                 cash, count, plus = buy(i, cash, count, "AR", plus, self.stock)
                 self.AR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
-            elif (self.stock["AR"][i] > 1.5):
+            elif (self.stock["AR"][i] > 1.85):
                 if(count > 0):
                     cash, count = sell(i, cash, count, "AR",
                                        plus/count, self.stock)
                     self.AR_detail.append(
-                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "AR", plus, self.stock)
                     self.AR_detail.append(
@@ -304,7 +304,7 @@ class TechnologyPointer:
                     cash, count = sell(i, cash, count, "BR",
                                        plus/count, self.stock)
                     self.BR_detail.append(
-                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
+                        {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
                 else:
                     cash, count = sell(i, cash, count, "BR", plus, self.stock)
                     self.BR_detail.append(
