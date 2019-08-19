@@ -111,18 +111,16 @@ def get_DMI(priceData, period=14):
 
 
 def buy(day, money, count, plus, stock):
-    if(money >= stock['close'][day] * 1000):
-        plus = plus + round(stock['close'][day]*1000)
-        money = money - round(stock['close'][day]*1000)
-        count = count + 1
+    plus = plus + round(stock['close'][day]*1000)
+    money = money - round(stock['close'][day]*1000)
+    count = count + 1
 
     return money, count, plus
 
 
 def sell(day, money, count, stock):
-    if(count > 0 ):
-        money = money + round(stock['close'][day] * 1000) * count
-        count = 0
+    money = money + round(stock['close'][day] * 1000) * count
+    count = 0
     return money, count , 0
 
 
@@ -249,7 +247,7 @@ class TechnologyPointer:
         cash = money
         OBV = get_OBV(self.stock)
         for i in range(1, len(OBV["OBV"])):
-            if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0):
+            if (OBV["OBV"][i] < 0) and (OBV["OBV"][i - 1] > 0 and money >= self.stock['close'][i] * 1000):
                 cash, count, plus = buy(
                     i, cash, count, plus, self.stock)
                 self.OBV_detail.append(
@@ -268,11 +266,12 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["AR"])):
-            if (self.stock["AR"][i] < 0.8):
+            print(self.stock["AR"][i])
+            if (self.stock["AR"][i] < 120 and money >= self.stock['close'][i] * 1000):   
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.AR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
-            elif (self.stock["AR"][i] > 1.5):
+            elif (self.stock["AR"][i] > 150):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
                     cash, count,plus = sell(i, cash, count, self.stock)
                     self.AR_detail.append(
@@ -285,7 +284,7 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["BR"])):
-            if (self.stock["BR"][i] < 50):
+            if (self.stock["BR"][i] < 50 and money >= self.stock['close'][i] * 1000):
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.BR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
