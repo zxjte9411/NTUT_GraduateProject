@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
 }
 
 hr {
@@ -23,13 +23,13 @@ a {
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s;
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .row-auto{
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
 }
 a:hover {
   color: #F58D03;

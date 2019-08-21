@@ -5,6 +5,7 @@ html {
 
 body {
   overflow-x: hidden;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif,'微軟正黑體';
 }
 
 body.sticky-footer {
@@ -370,7 +371,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
   }
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level,
   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-third-level {
-    background: rgb(112, 201, 243);
+    background: lightgoldenrodyellow;
   }
 }
 
@@ -513,4 +514,7 @@ form.login input[type="text"]
 }
 .bg-dark {
   background-color:#ffb66b !important;
+}
+.nav-title{
+  color:#000 !important;
 }
