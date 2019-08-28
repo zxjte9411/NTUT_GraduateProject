@@ -519,3 +519,16 @@ form.login input[type="text"]
 .nav-title{
   color:#000 !important;
 }
+
+.instruction-title{
+  width: 100%;
+  /* padding-left: 15px;
+  padding-right: 15px; */
+}
+
+.instruction-content{
+  width: 100%;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  padding-bottom: 16px;
+}
