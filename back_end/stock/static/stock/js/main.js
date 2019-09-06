@@ -29,8 +29,8 @@ $(() => {
                         tbody.append("<tr><th>" + element.date + "</th><th>" + element.close + "</th><th>" + element.type + "</tr>")
                     })
                     result_table.append(tbody)
-                    // 第一次發 POST 會改變 table 的顯示
-                    $("#result").show()
+                    $(".loader").hide()
+                    result_table.show()
                 }
             },
             error: function (XMLHttpRequest, _ajaxOptions, _errorThrown) {
@@ -55,6 +55,7 @@ $(() => {
             },
             success: function (data) {
                 if (data.status == 1) {
+
                     result_table = $("#dataTable")
                     let tbody
                     if ($("#dataTable tbody").length === 0) {
@@ -69,6 +70,7 @@ $(() => {
                     })
                     result_table.append(tbody)
                     // 第一次發 POST 會改變 table 的顯示
+                    $(".loader").hide()
                     $("#result").show()
                     $("#return_money").val($("#money").val())
                     $("#return_stock_num").val($("#stock_num").val())
@@ -81,9 +83,13 @@ $(() => {
     }
 
     $("#button_submit_withdraw").click(function () {
+        $(".loader").show()
+        $("#result").hide()
         update_view_of_withdraw("/withdraw")
     })
     $("#button_submit_detail").click(function () {
+        $(".loader").show()
+        $("#dataTable").hide()
         update_view_of_detail("/withdraw/detail")
     })
 })
