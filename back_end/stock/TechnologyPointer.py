@@ -629,7 +629,7 @@ class TechnologyPointer:
         plt.savefig('./AR.jpg')
 
         # 一定要在savefig 後面 不然會存空白圖
-        plt.show()
+        # plt.show()
         # plt.show()
         return "ok"
 
@@ -650,7 +650,7 @@ class TechnologyPointer:
         ax2.legend(loc=2)
         plt.savefig('./BR.jpg')
 
-        plt.show()
+        # plt.show()
         return "ok"
 
     def get_KD_image(self):
@@ -685,7 +685,7 @@ class TechnologyPointer:
         ax2.legend(loc=0)
         plt.savefig('./OBV.jpg')
 
-        plt.show()
+        # plt.show()
         # plt.figure()
         # plt.plot(df['date'], temp['OBV'])
         # # plt.plot(df['date'], df['close'],color = 'black')
@@ -716,7 +716,7 @@ class TechnologyPointer:
         ax2.legend(loc=0)
         plt.savefig('./DMI.jpg')
 
-        plt.show()
+        # plt.show()
         # print(temp)
         # plt.figure()
         # plt.plot(df['date'][1:], temp['+DM'])
