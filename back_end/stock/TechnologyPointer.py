@@ -1,7 +1,11 @@
 import sqlite3
 import numpy as np
 import pandas as pd
+
 import talib
+from talib import abstract
+from  matplotlib import pyplot as plt
+from matplotlib.pylab import date2num
 
 data_base = sqlite3.connect('./db.sqlite3')
 stock_nums = pd.read_sql(
@@ -9,6 +13,7 @@ stock_nums = pd.read_sql(
 # close data base connect
 data_base.close()
 
+plt.rcParams["figure.figsize"] = (8,5)
 
 def get_OBV(priceData):
     OBV = pd.DataFrame(
@@ -579,3 +584,92 @@ class TechnologyPointer:
                 'MA': self.MA_detail
             }
         }
+    def get_RSI_image(self):
+        df = self.get_stock()
+        plt.figure()
+        plt.plot(df['date'], df['RSI6'])
+        plt.plot(df['date'], df['RSI14'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("RSI")
+        plt.legend(["RSI6","RSI14","Close"], loc='best', shadow=True)
+        plt.savefig('./RSI.jpg')
+    
+    def get_PSY_image(self):
+        df = self.get_stock()
+        plt.figure()
+        plt.plot(df['date'], df['PSY'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("PSY")
+        plt.legend(["PSY","Close"], loc='best', shadow=True)
+        plt.savefig('./PSY.jpg')
+        plt.show()
+
+    def get_SMA_image(self):
+        df = self.get_stock()
+        plt.figure()
+        plt.plot(df['date'], df['SMA'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("SMA")
+        plt.legend(["SMA","Close"], loc='best', shadow=True)
+        plt.savefig('./SMA.jpg')
+        plt.show()
+
+    def get_AR_image(self):
+        df = self.get_stock()
+        plt.figure()
+        plt.plot(df['date'], df['AR'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("AR")
+        plt.legend(["AR","Close"], loc='best', shadow=True)
+        plt.savefig('./AR.jpg')
+        plt.show()
+
+    def get_BR_image(self):
+        df = self.get_stock()
+        plt.figure()
+        plt.plot(df['date'], df['BR'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("BR")
+        plt.legend(["BR","Close"], loc='best', shadow=True)
+        plt.savefig('./BR.jpg')
+        plt.show()
+    
+    def get_KD_image(self):
+        df = self.get_stock()
+        print(df)
+        plt.figure()
+        plt.plot(df['date'], df['K'])
+        plt.plot(df['date'], df['D'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("KD")
+        plt.legend(["K","D","Close"], loc='best', shadow=True)
+        plt.savefig('./KD.jpg')
+        plt.show()
+
+    # def get_OBV_image(self):
+    #     df = self.get_stock()
+    #     temp = get_OBV(self.stock)
+    #     plt.figure()
+    #     plt.plot(df['date'], temp['OBV'])
+    #     # plt.plot(df['date'], df['close'],color = 'black')
+        
+    #     plt.title("OBV")
+    #     plt.legend(["OBV","Close"], loc='best', shadow=True)
+    #     plt.savefig('./OBV.jpg')
+    #     plt2 = plt.twinx()
+    #     plt2.plot(df['date'], df['close'],color = 'black')
+    #     plt.show()
+
+    def get_DMI_image(self):
+        df = self.get_stock()
+        temp = get_DMI(self.stock)
+        print(temp)
+        plt.figure()
+        plt.plot(df['date'][1:], temp['+DM'])
+        plt.plot(df['date'][1:], temp['-DM'])
+        plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("DMI")
+        plt.legend(["+DI","-DI","Close"], loc='best', shadow=True)
+        plt.savefig('./DMI.jpg')
+        plt.show()
+TechnologyPointer().get_DMI_image()
