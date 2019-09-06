@@ -7,6 +7,8 @@ import talib
 from talib import abstract
 from matplotlib import pyplot as plt
 from matplotlib.pylab import date2num
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -274,7 +276,7 @@ class TechnologyPointer:
         plus = 0
         cash = money
         for i in range(1, len(self.stock["AR"])):
-            print(self.stock["AR"][i])
+            # print(self.stock["AR"][i])
             if (self.stock["AR"][i] < 120 and cash >= self.stock['close'][i] * 1000):   
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.AR_detail.append(
