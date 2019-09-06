@@ -707,6 +707,3 @@ class TechnologyPointer:
         ax.legend(loc=2)
 
         plt.savefig('./CLOSE.png')
-
-
-TechnologyPointer().get_CLOSE_image()
