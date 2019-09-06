@@ -134,4 +134,5 @@ tmp.py
 log.*
 .vscode
 *.sqlite3
+*.png
 # End of https://www.gitignore.io/api/python
