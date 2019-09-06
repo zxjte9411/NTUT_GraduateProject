@@ -719,16 +719,18 @@ class TechnologyPointer:
         ax2.legend(loc=0)
         plt.savefig('./DMI.png')
 
-        # plt.show()
-        # print(temp)
-        # plt.figure()
-        # plt.plot(df['date'][1:], temp['+DM'])
-        # plt.plot(df['date'][1:], temp['-DM'])
+    def get_CLOSE_image(self):
+        df = self.get_stock()
+        temp = get_DMI(self.stock)
 
-        
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        ax.plot(df['date'], df['close'], label = "close", color = 'black')
         # plt.plot(df['date'], df['close'],color = 'black')
-        # plt.title("DMI")
-        # plt.legend(["+DI","-DI","Close"], loc='best', shadow=True)
-        # plt.savefig('./DMI.jpg')
-        # plt.show()
-TechnologyPointer().get_OBV_image()
+        plt.title("CLOSE")
+        ax.legend(loc=2)
+       
+
+        plt.savefig('./DMI.png')
+TechnologyPointer().get_CLOSE_image()
