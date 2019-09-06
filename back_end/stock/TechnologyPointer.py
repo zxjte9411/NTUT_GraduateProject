@@ -18,7 +18,8 @@ stock_nums = pd.read_sql(
 # close data base connect
 data_base.close()
 
-plt.rcParams["figure.figsize"] = (8,5)
+plt.rcParams["figure.figsize"] = (8, 5)
+
 
 def get_OBV(priceData):
     OBV = pd.DataFrame(
@@ -131,7 +132,7 @@ def buy(day, money, count, plus, stock):
 def sell(day, money, count, stock):
     money = money + round(stock['close'][day] * 1000) * count
     count = 0
-    return money, count , 0
+    return money, count, 0
 
 
 class TechnologyPointer:
@@ -264,11 +265,11 @@ class TechnologyPointer:
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (OBV["OBV"][i] > 0) and (OBV["OBV"][i - 1] < 0):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count,plus = sell(i, cash, count, self.stock)
+                    cash, count, plus = sell(i, cash, count, self.stock)
                     #print(tpname," 指標",str(stock.index[day]).split(" ")[0], round(stock[tpname][day], 2), "進行賣出","張數", count ,"金額",round(stock['close'][day]*1000) * count, "剩餘金額: ", money)
                     self.OBV_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
-            
+
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_AR_profit(self, money=50000):
@@ -277,16 +278,16 @@ class TechnologyPointer:
         cash = money
         for i in range(1, len(self.stock["AR"])):
             # print(self.stock["AR"][i])
-            if (self.stock["AR"][i] < 120 and cash >= self.stock['close'][i] * 1000):   
+            if (self.stock["AR"][i] < 120 and cash >= self.stock['close'][i] * 1000):
                 cash, count, plus = buy(i, cash, count, plus, self.stock)
                 self.AR_detail.append(
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["AR"][i] > 150):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count,plus = sell(i, cash, count, self.stock)
+                    cash, count, plus = sell(i, cash, count, self.stock)
                     self.AR_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
-               
+
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_BR_profit(self, money=50000):
@@ -300,10 +301,10 @@ class TechnologyPointer:
                     {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '買入'})
             elif (self.stock["BR"][i] > 400):
                 if(count > 0 and round(self.stock['close'][i] * 1000) > plus/count):
-                    cash, count,plus = sell(i, cash, count, self.stock)
+                    cash, count, plus = sell(i, cash, count, self.stock)
                     self.BR_detail.append(
                         {'date': str(self.stock['date'][i]).split(" ")[0], 'close': self.stock['close'][i], 'type': '賣出'})
-            
+
         return ((cash + self.stock["close"][len(self.stock)-1] * count * 1000) - money) / money
 
     def get_KD_profit(self, money=50000):
@@ -589,14 +590,15 @@ class TechnologyPointer:
                 'MA': self.MA_detail
             }
         }
+
     def get_RSI_image(self):
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['RSI6'])
         plt.plot(df['date'], df['RSI14'])
-        plt.plot(df['date'], df['close'],color = 'black')
+        plt.plot(df['date'], df['close'], color='black')
         plt.title("RSI")
-        plt.legend(["RSI6","RSI14","Close"], loc='best', shadow=True)
+        plt.legend(["RSI6", "RSI14", "Close"], loc='best', shadow=True)
         plt.savefig('./RSI.png')
         return "ok"
 
@@ -604,9 +606,9 @@ class TechnologyPointer:
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['PSY'])
-        plt.plot(df['date'], df['close'],color = 'black')
+        plt.plot(df['date'], df['close'], color='black')
         plt.title("PSY")
-        plt.legend(["PSY","Close"], loc='best', shadow=True)
+        plt.legend(["PSY", "Close"], loc='best', shadow=True)
         plt.savefig('./PSY.png')
         return "ok"
 
@@ -614,48 +616,37 @@ class TechnologyPointer:
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['SMA'])
-        plt.plot(df['date'], df['close'],color = 'black')
+        plt.plot(df['date'], df['close'], color='black')
         plt.title("SMA")
-        plt.legend(["SMA","Close"], loc='best', shadow=True)
+        plt.legend(["SMA", "Close"], loc='best', shadow=True)
         plt.savefig('./SMA.png')
-       
         return "ok"
 
     def get_AR_image(self):
         df = self.get_stock()
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        ax.plot(df['date'], df['AR'], label = "AR")
+        ax.plot(df['date'], df['AR'], label="AR")
         plt.title("AR")
         ax.legend(loc=0)
         ax2 = ax.twinx()
-        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+        ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
         plt.savefig('./AR.png')
-
-        # 一定要在savefig 後面 不然會存空白圖
-        # plt.show()
-        # plt.show()
         return "ok"
 
     def get_BR_image(self):
         df = self.get_stock()
-
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
-        ax.plot(df['date'], df['BR'], label = "BR")
-        # plt.plot(df['date'], df['close'],color = 'black')
+        ax.plot(df['date'], df['BR'], label="BR")
         plt.title("BR")
         ax.legend(loc=0)
-       
         ax2 = ax.twinx()
-        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
-
+        ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
         plt.savefig('./BR.png')
 
-        # plt.show()
         return "ok"
 
     def get_KD_image(self):
@@ -664,43 +655,29 @@ class TechnologyPointer:
         plt.figure()
         plt.plot(df['date'], df['K'])
         plt.plot(df['date'], df['D'])
-        plt.plot(df['date'], df['close'],color = 'black')
+        plt.plot(df['date'], df['close'], color='black')
         plt.title("KD")
-        plt.legend(["K","D","Close"], loc='best', shadow=True)
+        plt.legend(["K", "D", "Close"], loc='best', shadow=True)
         plt.savefig('./KD.png')
-        # plt.show()
         return "ok"
-        
+
     def get_OBV_image(self):
         df = self.get_stock()
         temp = get_OBV(self.stock)
-        
+
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
-        ax.plot(df['date'], temp['OBV'], label = "OBV")
-        ax.set_ylim([0,80000000])
-        # plt.plot(df['date'], df['close'],color = 'black')
+        ax.plot(df['date'], temp['OBV'], label="OBV")
+        ax.set_ylim([0, 80000000])
         plt.title("OBV")
         ax.legend(loc=2)
-       
+
         ax2 = ax.twinx()
-        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+        ax2.plot(df['date'], df['close'], color='black', label="close")
 
         ax2.legend(loc=0)
         plt.savefig('./OBV.png')
-
-        # plt.show()
-        # plt.figure()
-        # plt.plot(df['date'], temp['OBV'])
-        # # plt.plot(df['date'], df['close'],color = 'black')
-        
-        # plt.title("OBV")
-        # plt.legend(["OBV","Close"], loc='best', shadow=True)
-        # plt.savefig('./OBV.jpg')
-        # plt2 = plt.twinx()
-        # plt2.plot(df['date'], df['close'],color = 'black')
-        # plt.show()
 
     def get_DMI_image(self):
         df = self.get_stock()
@@ -709,30 +686,27 @@ class TechnologyPointer:
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
-        ax.plot(df['date'][1:], temp['+DM'], label = "+DM")
-        ax.plot(df['date'][1:], temp['-DM'], label = "-DM")
+        ax.plot(df['date'][1:], temp['+DM'], label="+DM")
+        ax.plot(df['date'][1:], temp['-DM'], label="-DM")
         # plt.plot(df['date'], df['close'],color = 'black')
         plt.title("DMI")
         ax.legend(loc=2)
-       
+
         ax2 = ax.twinx()
-        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+        ax2.plot(df['date'], df['close'], color='black', label="close")
 
         ax2.legend(loc=0)
         plt.savefig('./DMI.png')
 
     def get_CLOSE_image(self):
         df = self.get_stock()
-        temp = get_DMI(self.stock)
-
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
-        ax.plot(df['date'], df['close'], label = "close", color = 'black')
-        # plt.plot(df['date'], df['close'],color = 'black')
+        ax.plot(df['date'], df['close'], label="close", color='black')
         plt.title("CLOSE")
         ax.legend(loc=2)
-       
 
-        plt.savefig('./DMI.png')
+        plt.savefig('./CLOSE.png')
+
+
 TechnologyPointer().get_CLOSE_image()
