@@ -596,7 +596,8 @@ class TechnologyPointer:
         plt.title("RSI")
         plt.legend(["RSI6","RSI14","Close"], loc='best', shadow=True)
         plt.savefig('./RSI.jpg')
-    
+        return "ok"
+
     def get_PSY_image(self):
         df = self.get_stock()
         plt.figure()
@@ -605,7 +606,7 @@ class TechnologyPointer:
         plt.title("PSY")
         plt.legend(["PSY","Close"], loc='best', shadow=True)
         plt.savefig('./PSY.jpg')
-        plt.show()
+        return "ok"
 
     def get_SMA_image(self):
         df = self.get_stock()
@@ -615,28 +616,46 @@ class TechnologyPointer:
         plt.title("SMA")
         plt.legend(["SMA","Close"], loc='best', shadow=True)
         plt.savefig('./SMA.jpg')
-        plt.show()
+       
+        return "ok"
 
     def get_AR_image(self):
         df = self.get_stock()
-        plt.figure()
-        plt.plot(df['date'], df['AR'])
-        plt.plot(df['date'], df['close'],color = 'black')
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.plot(df['date'], df['AR'], label = "AR")
         plt.title("AR")
-        plt.legend(["AR","Close"], loc='best', shadow=True)
+        ax.legend(loc=0)
+        ax2 = ax.twinx()
+        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+        ax2.legend(loc=2)
         plt.savefig('./AR.jpg')
-        plt.show()
+
+        # 一定要在savefig 後面 不然會存空白圖
+        # plt.show()
+        # plt.show()
+        return "ok"
 
     def get_BR_image(self):
         df = self.get_stock()
-        plt.figure()
-        plt.plot(df['date'], df['BR'])
-        plt.plot(df['date'], df['close'],color = 'black')
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        ax.plot(df['date'], df['BR'], label = "BR")
+        # plt.plot(df['date'], df['close'],color = 'black')
         plt.title("BR")
-        plt.legend(["BR","Close"], loc='best', shadow=True)
+        ax.legend(loc=0)
+       
+        ax2 = ax.twinx()
+        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+
+        ax2.legend(loc=2)
         plt.savefig('./BR.jpg')
-        plt.show()
-    
+
+        # plt.show()
+        return "ok"
+
     def get_KD_image(self):
         df = self.get_stock()
         print(df)
@@ -647,32 +666,69 @@ class TechnologyPointer:
         plt.title("KD")
         plt.legend(["K","D","Close"], loc='best', shadow=True)
         plt.savefig('./KD.jpg')
-        plt.show()
-
-    # def get_OBV_image(self):
-    #     df = self.get_stock()
-    #     temp = get_OBV(self.stock)
-    #     plt.figure()
-    #     plt.plot(df['date'], temp['OBV'])
-    #     # plt.plot(df['date'], df['close'],color = 'black')
+        # plt.show()
+        return "ok"
         
-    #     plt.title("OBV")
-    #     plt.legend(["OBV","Close"], loc='best', shadow=True)
-    #     plt.savefig('./OBV.jpg')
-    #     plt2 = plt.twinx()
-    #     plt2.plot(df['date'], df['close'],color = 'black')
-    #     plt.show()
+    def get_OBV_image(self):
+        df = self.get_stock()
+        temp = get_OBV(self.stock)
+        
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        ax.plot(df['date'], temp['OBV'], label = "OBV")
+        ax.set_ylim([0,80000000])
+        # plt.plot(df['date'], df['close'],color = 'black')
+        plt.title("OBV")
+        ax.legend(loc=2)
+       
+        ax2 = ax.twinx()
+        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+
+        ax2.legend(loc=0)
+        plt.savefig('./OBV.jpg')
+
+        # plt.show()
+        # plt.figure()
+        # plt.plot(df['date'], temp['OBV'])
+        # # plt.plot(df['date'], df['close'],color = 'black')
+        
+        # plt.title("OBV")
+        # plt.legend(["OBV","Close"], loc='best', shadow=True)
+        # plt.savefig('./OBV.jpg')
+        # plt2 = plt.twinx()
+        # plt2.plot(df['date'], df['close'],color = 'black')
+        # plt.show()
 
     def get_DMI_image(self):
         df = self.get_stock()
         temp = get_DMI(self.stock)
-        print(temp)
-        plt.figure()
-        plt.plot(df['date'][1:], temp['+DM'])
-        plt.plot(df['date'][1:], temp['-DM'])
-        plt.plot(df['date'], df['close'],color = 'black')
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        ax.plot(df['date'][1:], temp['+DM'], label = "+DM")
+        ax.plot(df['date'][1:], temp['-DM'], label = "-DM")
+        # plt.plot(df['date'], df['close'],color = 'black')
         plt.title("DMI")
-        plt.legend(["+DI","-DI","Close"], loc='best', shadow=True)
+        ax.legend(loc=2)
+       
+        ax2 = ax.twinx()
+        ax2.plot(df['date'], df['close'], color = 'black', label = "close")
+
+        ax2.legend(loc=0)
         plt.savefig('./DMI.jpg')
-        plt.show()
-TechnologyPointer().get_DMI_image()
+
+        # plt.show()
+        # print(temp)
+        # plt.figure()
+        # plt.plot(df['date'][1:], temp['+DM'])
+        # plt.plot(df['date'][1:], temp['-DM'])
+
+        
+        # plt.plot(df['date'], df['close'],color = 'black')
+        # plt.title("DMI")
+        # plt.legend(["+DI","-DI","Close"], loc='best', shadow=True)
+        # plt.savefig('./DMI.jpg')
+        # plt.show()
+TechnologyPointer().get_OBV_image()
