@@ -1,13 +1,16 @@
 import sqlite3
+import os
+
 import numpy as np
 import pandas as pd
-
 import talib
 from talib import abstract
-from  matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 from matplotlib.pylab import date2num
 
-data_base = sqlite3.connect('./db.sqlite3')
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+
+data_base = sqlite3.connect(f'{BASE_PATH}/db.sqlite3')
 stock_nums = pd.read_sql(
     'select DISTINCT 證券代號 from daily_price ORDER BY 證券代號', data_base)['證券代號'].values
 # close data base connect
@@ -131,7 +134,7 @@ def sell(day, money, count, stock):
 
 class TechnologyPointer:
     def __init__(self, date='2019-04-12', stock_number='2302'):
-        data_base = sqlite3.connect('./db.sqlite3')
+        data_base = sqlite3.connect(f'{BASE_PATH}/db.sqlite3')
         self.stock_number = stock_number
         self.df = pd.read_sql(f'select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="{stock_number}"',
                               data_base, parse_dates=['日期'])
