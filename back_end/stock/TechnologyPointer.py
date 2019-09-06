@@ -595,7 +595,7 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'],color = 'black')
         plt.title("RSI")
         plt.legend(["RSI6","RSI14","Close"], loc='best', shadow=True)
-        plt.savefig('./RSI.jpg')
+        plt.savefig('./RSI.png')
         return "ok"
 
     def get_PSY_image(self):
@@ -605,7 +605,7 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'],color = 'black')
         plt.title("PSY")
         plt.legend(["PSY","Close"], loc='best', shadow=True)
-        plt.savefig('./PSY.jpg')
+        plt.savefig('./PSY.png')
         return "ok"
 
     def get_SMA_image(self):
@@ -615,7 +615,7 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'],color = 'black')
         plt.title("SMA")
         plt.legend(["SMA","Close"], loc='best', shadow=True)
-        plt.savefig('./SMA.jpg')
+        plt.savefig('./SMA.png')
        
         return "ok"
 
@@ -629,7 +629,7 @@ class TechnologyPointer:
         ax2 = ax.twinx()
         ax2.plot(df['date'], df['close'], color = 'black', label = "close")
         ax2.legend(loc=2)
-        plt.savefig('./AR.jpg')
+        plt.savefig('./AR.png')
 
         # 一定要在savefig 後面 不然會存空白圖
         # plt.show()
@@ -651,7 +651,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color = 'black', label = "close")
 
         ax2.legend(loc=2)
-        plt.savefig('./BR.jpg')
+        plt.savefig('./BR.png')
 
         # plt.show()
         return "ok"
@@ -665,7 +665,7 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'],color = 'black')
         plt.title("KD")
         plt.legend(["K","D","Close"], loc='best', shadow=True)
-        plt.savefig('./KD.jpg')
+        plt.savefig('./KD.png')
         # plt.show()
         return "ok"
         
@@ -686,7 +686,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color = 'black', label = "close")
 
         ax2.legend(loc=0)
-        plt.savefig('./OBV.jpg')
+        plt.savefig('./OBV.png')
 
         # plt.show()
         # plt.figure()
@@ -717,7 +717,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color = 'black', label = "close")
 
         ax2.legend(loc=0)
-        plt.savefig('./DMI.jpg')
+        plt.savefig('./DMI.png')
 
         # plt.show()
         # print(temp)
