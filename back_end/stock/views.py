@@ -71,7 +71,7 @@ def withdraw(request):
 
 
 def stockPoint(request):
-    return render(request, 'stockPoint.html')
+    return render(request, 'stockPoint.html', {'stock_nums': stock_nums})
 
 
 def home(request):
