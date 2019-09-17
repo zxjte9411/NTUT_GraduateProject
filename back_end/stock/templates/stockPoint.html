@@ -2,69 +2,53 @@
 
 {% block body %}
 {{ block.super }}
+{% csrf_token %}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="#">交易</a>
+  </li>
+  <li class="breadcrumb-item active">各類指標線圖</li>
+</ol>
+<h1>各類指標線圖</h1>
+<hr>
+<!-- Icon Cards-->
+<div class="form-row">
+  <div class="form-group col-md-4">
+    <label for="inputStock">股票編號</label>
+    <select class="form-control" name="stock_num" id="stock_num">
+      <option>請選擇...</option>
+      {% for i in stock_nums %}
+      <option>{{ i }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputPassword4">指標類型</label>
+    <select class="form-control" name="tptype" id="tptype">
+      <!-- <option>請選擇...</option> -->
+      <option>OBV</option>
+      <option>DMI</option>
+      <option>KD</option>
+      <option>AR</option>
+      <option>BR</option>
+      <option>RSI</option>
+      <option>MA</option>
+      <option>PSY</option>
+    </select>
+  </div>
+  <div class="form-group col-md-2 pt-2">
+    <button id="button_submit_line_graph" type="submit" class="btn btn-primary mt-4">確定</button>
+  </div>
 
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="#">交易</a>
-      </li>
-      <li class="breadcrumb-item active">各類指標線圖</li>
-    </ol>
-    <h1>各類指標線圖</h1>
-    <hr>
-    <!-- Icon Cards-->
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="inputStock">股票編號</label>
-        <select class="form-control" name="stock_num" id="stock_num">
-          <option>請選擇...</option>
-          {% for i in stock_nums %}
-          <option>{{ i }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputPassword4">指標類型</label>
-        <select class="form-control" name="tptype" id="tptype">
-          <!-- <option>請選擇...</option> -->
-          <option>OBV</option>
-          <option>DMI</option>
-          <option>KD</option>
-          <option>AR</option>
-          <option>BR</option>
-          <option>RSI</option>
-          <option>MA</option>
-          <option>PSY</option>
-        </select>
-      </div>
-      <!-- <div class="form-group col-md-4 d-flex align-items-end">
-        <button id="button_submit_trading" type="submit" class="btn btn-primary">確定</button>
-      </div>
-    </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-        指標類型
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">OBV</a>
-        <a class="dropdown-item" href="#">DMI</a>
-        <a class="dropdown-item" href="#">KD</a>
-        <a class="dropdown-item" href="#">AR</a>
-        <a class="dropdown-item" href="#">BR</a>
-        <a class="dropdown-item" href="#">RSI</a>
-        <a class="dropdown-item" href="#">PSY</a>
-        <a class="dropdown-item" href="#">MA</a>
-        <div class="dropdown-divider"></div>
-      </div> -->
-    </div>
-    <!-- Area Chart Example-->
+</div>
+<!-- Area Chart Example-->
 <div class="card mb-3">
   <div class="card-header">
     <i class="fa fa-area-chart"></i> Area Chart</div>
   <div class="card-body">
     <canvas id="myAreaChart" width="100%" height="30"></canvas>
-    <!--可以放 股票收盤價圖片-->
+    <img id="line_graph" src="" alt="">
   </div>
 </div>
 <!-- Example DataTables Card-->

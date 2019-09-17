@@ -592,7 +592,7 @@ class TechnologyPointer:
             }
         }
 
-    def get_RSI_image(self):
+    def get_RSI_image(self) -> str:
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['RSI6'])
@@ -600,30 +600,33 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'], color='black')
         plt.title("RSI")
         plt.legend(["RSI6", "RSI14", "Close"], loc='best', shadow=True)
-        plt.savefig('./RSI.png')
-        return "ok"
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_PSY_image(self):
+    def get_PSY_image(self) -> str:
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['PSY'])
         plt.plot(df['date'], df['close'], color='black')
         plt.title("PSY")
         plt.legend(["PSY", "Close"], loc='best', shadow=True)
-        plt.savefig('./PSY.png')
-        return "ok"
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_SMA_image(self):
+    def get_MA_image(self) -> str:
         df = self.get_stock()
         plt.figure()
         plt.plot(df['date'], df['SMA'])
         plt.plot(df['date'], df['close'], color='black')
         plt.title("SMA")
         plt.legend(["SMA", "Close"], loc='best', shadow=True)
-        plt.savefig('./SMA.png')
-        return "ok"
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_AR_image(self):
+    def get_AR_image(self) -> str:
         df = self.get_stock()
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -633,10 +636,11 @@ class TechnologyPointer:
         ax2 = ax.twinx()
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
-        plt.savefig('./AR.png')
-        return "ok"
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_BR_image(self):
+    def get_BR_image(self) -> str:
         df = self.get_stock()
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -646,11 +650,11 @@ class TechnologyPointer:
         ax2 = ax.twinx()
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
-        plt.savefig('./BR.png')
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-        return "ok"
-
-    def get_KD_image(self):
+    def get_KD_image(self) -> str:
         df = self.get_stock()
         print(df)
         plt.figure()
@@ -659,45 +663,42 @@ class TechnologyPointer:
         plt.plot(df['date'], df['close'], color='black')
         plt.title("KD")
         plt.legend(["K", "D", "Close"], loc='best', shadow=True)
-        plt.savefig('./KD.png')
-        return "ok"
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_OBV_image(self):
+    def get_OBV_image(self) -> str:
         df = self.get_stock()
         temp = get_OBV(self.stock)
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
         ax.plot(df['date'], temp['OBV'], label="OBV")
         ax.set_ylim([0, 80000000])
         plt.title("OBV")
         ax.legend(loc=2)
-
         ax2 = ax.twinx()
         ax2.plot(df['date'], df['close'], color='black', label="close")
-
         ax2.legend(loc=0)
-        plt.savefig('./OBV.png')
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
-    def get_DMI_image(self):
+    def get_DMI_image(self) -> str:
         df = self.get_stock()
         temp = get_DMI(self.stock)
-
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
         ax.plot(df['date'][1:], temp['+DM'], label="+DM")
         ax.plot(df['date'][1:], temp['-DM'], label="-DM")
-        # plt.plot(df['date'], df['close'],color = 'black')
         plt.title("DMI")
         ax.legend(loc=2)
-
         ax2 = ax.twinx()
         ax2.plot(df['date'], df['close'], color='black', label="close")
-
         ax2.legend(loc=0)
-        plt.savefig('./DMI.png')
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'
 
     def get_CLOSE_image(self) -> str:
         df = self.get_stock()

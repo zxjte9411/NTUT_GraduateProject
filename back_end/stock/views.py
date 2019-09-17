@@ -38,8 +38,7 @@ def trading(request):
             stock_number=form['stock_num'][0]).get_CLOSE_image()
         # technology_pointer = TechnologyPointer('2019-04-12', form['stock_num'][0])
         # data = technology_pointer.get_all_detail()
-        data = {'img_url': img_url}
-        data['status'] = 1
+        data = {'img_url': img_url, 'status': 1}
         return HttpResponse(json.dumps(data))
     return render(request, 'trading.html', {'stock_nums': stock_nums})
 
@@ -75,6 +74,31 @@ def withdraw(request):
 
 
 def stockPoint(request):
+    if request.method == 'POST' and request.is_ajax():
+        form = dict(request.POST)
+        technology_pointer = TechnologyPointer(
+            stock_number=form['stock_num'][0])
+        img_url = ''
+        if form['tptype'][0] == 'OBV':
+            img_url = technology_pointer.get_OBV_image()
+        elif form['tptype'][0] == 'DMI':
+            img_url = technology_pointer.get_DMI_image()
+        elif form['tptype'][0] == 'KD':
+            img_url = technology_pointer.get_KD_image()
+        elif form['tptype'][0] == 'AR':
+            img_url = technology_pointer.get_AR_image()
+        elif form['tptype'][0] == 'BR':
+            img_url = technology_pointer.get_BR_image()
+        elif form['tptype'][0] == 'RSI':
+            img_url = technology_pointer.get_RSI_image()
+        elif form['tptype'][0] == 'MA':
+            img_url = technology_pointer.get_MA_image()
+        elif form['tptype'][0] == 'PSY':
+            img_url = technology_pointer.get_PSY_image()
+
+        data = {'img_url': img_url, 'status': 1}
+        return HttpResponse(json.dumps(data))
+
     return render(request, 'stockPoint.html', {'stock_nums': stock_nums})
 
 

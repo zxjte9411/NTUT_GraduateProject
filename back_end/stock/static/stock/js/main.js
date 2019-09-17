@@ -83,6 +83,7 @@ $(() => {
     }
 
     function show_image(action_url) {
+        console.log($("#tptype").val())
         $.ajaxSetup({
             url: action_url,
             type: 'POST',
@@ -93,7 +94,8 @@ $(() => {
         $.ajax({
             data: {
                 csrfmiddlewaretoken: $("*[name='csrfmiddlewaretoken']").val(),
-                stock_num: $("#stock_num").val()
+                stock_num: $("#stock_num").val(),
+                tptype: $("#tptype").val() || null
             },
             success: function (data) {
                 if(data.status == 1) {
@@ -119,7 +121,6 @@ $(() => {
         update_view_of_detail("/withdraw/detail")
     })
     $("#button_submit_line_graph").click(function () {
-        show_image("/trading")
-        
+        show_image(location.pathname.toString())
     })
 })
