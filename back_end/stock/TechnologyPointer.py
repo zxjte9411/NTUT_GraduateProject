@@ -656,7 +656,6 @@ class TechnologyPointer:
 
     def get_KD_image(self) -> str:
         df = self.get_stock()
-        print(df)
         plt.figure()
         plt.plot(df['date'], df['K'])
         plt.plot(df['date'], df['D'])
