@@ -100,6 +100,7 @@ $(() => {
             success: function (data) {
                 if(data.status == 1) {
                     $("#line_graph").attr('src', data.img_url)
+                    $(".loader").hide()
                 }
             },
             error: function (XMLHttpRequest, _ajaxOptions, _errorThrown) {
@@ -107,7 +108,6 @@ $(() => {
             }
         })
     }
-
 
 
     $("#button_submit_withdraw").click(function () {
@@ -121,6 +121,8 @@ $(() => {
         update_view_of_detail("/withdraw/detail")
     })
     $("#button_submit_line_graph").click(function () {
+        $(".loader").show()
+        $("#line_graph").attr('src', '')
         show_image(location.pathname.toString())
     })
 })
