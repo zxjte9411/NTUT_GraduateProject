@@ -22,6 +22,7 @@ data_base.close()
 plt.rcParams["figure.figsize"] = (8, 5)
 
 
+
 def get_OBV(priceData):
     OBV = pd.DataFrame(
         {
@@ -135,6 +136,12 @@ def sell(day, money, count, stock):
     count = 0
     return money, count, 0
 
+
+def check_img_file_amount_and_delete():
+    list_dirs = os.listdir(f'{BASE_PATH}/static/stock/img/line_graph/')
+    if len(list_dirs) + 1 > 10:
+        for i in list_dirs:
+            os.remove(f'{BASE_PATH}/static/stock/img/line_graph/{i}')
 
 class TechnologyPointer:
     def __init__(self, date='2019-04-12', stock_number='2302'):
@@ -601,6 +608,7 @@ class TechnologyPointer:
         plt.title("RSI")
         plt.legend(["RSI6", "RSI14", "Close"], loc='best', shadow=True)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -612,6 +620,7 @@ class TechnologyPointer:
         plt.title("PSY")
         plt.legend(["PSY", "Close"], loc='best', shadow=True)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -623,6 +632,7 @@ class TechnologyPointer:
         plt.title("SMA")
         plt.legend(["SMA", "Close"], loc='best', shadow=True)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -637,6 +647,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -651,6 +662,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=2)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -663,6 +675,7 @@ class TechnologyPointer:
         plt.title("KD")
         plt.legend(["K", "D", "Close"], loc='best', shadow=True)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -680,6 +693,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=0)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -696,6 +710,7 @@ class TechnologyPointer:
         ax2.plot(df['date'], df['close'], color='black', label="close")
         ax2.legend(loc=0)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
 
@@ -707,5 +722,6 @@ class TechnologyPointer:
         plt.title("CLOSE")
         ax.legend(loc=2)
         img_name = str(uuid.uuid1())
+        check_img_file_amount_and_delete()
         plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
         return f'/static/stock/img/line_graph/{img_name}.png'
