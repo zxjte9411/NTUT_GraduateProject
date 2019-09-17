@@ -65,12 +65,21 @@ def get_DMI(priceData, period=14):
     )
     # 重設索引 (index)
     DMI = DMI.reset_index(drop=True)
-    # 正趨向變動值 +DM = MAX｛Ht - Ht-1，0｝（只取正值，若為負值則設為 0）
-    DMI["+DM"] = pd.Series([round(max(DMI['high'][i]-DMI['high'][i+1], 0), 3)
-                            for i in range(len(DMI)-1)])
-    # 負趨向變動值 -DM = MAX｛Lt-1 - Lt，0｝（只取正值，若為負值則設為 0）
-    DMI['-DM'] = pd.Series([round(max(DMI['low'][i+1]-DMI['low'][i], 0), 3)
-                            for i in range(len(DMI)-1)])
+    plusDM = []
+    negativeDM = []
+    TR = []
+    for i in range(len(DMI)-1):
+        # 正趨向變動值 +DM = MAX｛Ht - Ht-1，0｝（只取正值，若為負值則設為 0）
+        plusDM.append(round(max(DMI['high'][i]-DMI['high'][i+1], 0), 3))
+        # 負趨向變動值 -DM = MAX｛Lt-1 - Lt，0｝（只取正值，若為負值則設為 0）
+        negativeDM.append(round(max(DMI['low'][i+1]-DMI['low'][i], 0), 3))
+        # TR = max{∣ Ht - Lt ∣, ∣ Ht - Ct-1 ∣, ∣ Ct-1 - Lt ∣}
+        TR.append(max(abs(DMI['high'][i]-DMI['low'][i]),
+                               abs(DMI['high'][i]-DMI['close'][i+1]),
+                               abs(DMI['close'][i+1]-DMI['low'][i])))
+    DMI["+DM"] = pd.Series(plusDM)
+    DMI['-DM'] = pd.Series(negativeDM)
+    DMI['TR'] = pd.Series(TR)
 
     # 同一天的 +DM 與 -DM 兩數值相比，較小者設定為 0，兩數若相同則兩數皆設定為 0。
     for i in range(len(DMI)-1):
@@ -81,10 +90,6 @@ def get_DMI(priceData, period=14):
         else:
             DMI.loc[i, '+DM'] = 0.0
             DMI.loc[i, '-DM'] = 0.0
-    # TR = max{∣ Ht - Lt ∣, ∣ Ht - Ct-1 ∣, ∣ Ct-1 - Lt ∣}
-    DMI['TR'] = pd.Series([max(abs(DMI['high'][i]-DMI['low'][i]),
-                               abs(DMI['high'][i]-DMI['close'][i+1]),
-                               abs(DMI['close'][i+1]-DMI['low'][i])) for i in range(len(DMI)-1)])
 
     # 計算方向指標
     # +ADMt = +ADMt-1 +（+DMt - +ADMt-1）/ n
@@ -107,15 +112,12 @@ def get_DMI(priceData, period=14):
     DMI.loc[len(DMI)-1, '-ADM'] = round(sum(DMI['-DM'][:period])/period, 3)
     DMI.loc[len(DMI)-1, 'ATR'] = round(sum(DMI['TR'][:period])/period, 3)
     for i in range(len(DMI)-2, -1, -1):
-        DMI.loc[i, '+ADM'] = DMI['+ADM'][i+1] + \
-            (DMI['+DM'][i] - DMI['+ADM'][i+1]) / period
-        DMI.loc[i, '-ADM'] = DMI['-ADM'][i+1] + \
-            (DMI['-DM'][i] - DMI['-ADM'][i+1]) / period
-        DMI.loc[i, 'ATR'] = DMI['ATR'][i+1] + \
-            (DMI['TR'][i] - DMI['ATR'][i+1]) / period
-    for i in range(len(DMI)):
+        DMI.loc[i, '+ADM'] = DMI['+ADM'][i+1] + (DMI['+DM'][i] - DMI['+ADM'][i+1]) / period
+        DMI.loc[i, '-ADM'] = DMI['-ADM'][i+1] + (DMI['-DM'][i] - DMI['-ADM'][i+1]) / period
+        DMI.loc[i, 'ATR'] = DMI['ATR'][i+1] + (DMI['TR'][i] - DMI['ATR'][i+1]) / period
         DMI.loc[i, '+DI'] = round(DMI['+ADM'][i] / DMI['ATR'][i] * 100, 0)
-        DMI.loc[i, '-DI'] = round(DMI['-ADM'][i] / DMI['ATR'][i] * 100, 0)
+        DMI.loc[i, '-DI'] = round(DMI['-ADM'][i] / DMI['ATR'][i] * 100, 0)        
+    # for i in range(len(DMI)):
         # DMI.loc[i, 'DX'] = round(abs(DMI['+DI'][i] - DMI['-DI'][i]) / (DMI['+DI'][i] + DMI['-DI'][i]) * 100, 0)
     DMI = DMI.loc[::-1]
     DMI = DMI.reset_index(drop=True)
