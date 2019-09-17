@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import uuid
 
 import numpy as np
 import pandas as pd
@@ -698,12 +699,13 @@ class TechnologyPointer:
         ax2.legend(loc=0)
         plt.savefig('./DMI.png')
 
-    def get_CLOSE_image(self):
+    def get_CLOSE_image(self) -> str:
         df = self.get_stock()
         fig = plt.figure()
         ax = fig.add_subplot(111)
         ax.plot(df['date'], df['close'], label="close", color='black')
         plt.title("CLOSE")
         ax.legend(loc=2)
-
-        plt.savefig('./CLOSE.png')
+        img_name = str(uuid.uuid1())
+        plt.savefig(f'{BASE_PATH}/static/stock/img/line_graph/{img_name}.png')
+        return f'/static/stock/img/line_graph/{img_name}.png'

@@ -18,11 +18,13 @@ def contact(request):
 def detail(request):
     form = dict(request.POST)
     if request.is_ajax():
-        technology_pointer = TechnologyPointer('2019-04-12', form['stock_num'][0])
+        technology_pointer = TechnologyPointer(
+            '2019-04-12', form['stock_num'][0])
         data = technology_pointer.get_all_detail(int(form['money'][0]))
         data['status'] = 1
         return HttpResponse(json.dumps(data))
-    technology_pointer = TechnologyPointer('2019-04-12', form['return_stock_num'][0])
+    technology_pointer = TechnologyPointer(
+        '2019-04-12', form['return_stock_num'][0])
     data = technology_pointer.get_all_detail(int(form['return_money'][0]))
     money = int(form['return_money'][0])
     stock_num = form['return_stock_num'][0]
@@ -30,11 +32,13 @@ def detail(request):
 
 
 def trading(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = dict(request.POST)
-        technology_pointer = TechnologyPointer(
-            '2019-04-12', form['stock_num'][0])
-        data = technology_pointer.get_all_detail()
+        img_url = TechnologyPointer(
+            stock_number=form['stock_num'][0]).get_CLOSE_image()
+        # technology_pointer = TechnologyPointer('2019-04-12', form['stock_num'][0])
+        # data = technology_pointer.get_all_detail()
+        data = {'img_url': img_url}
         data['status'] = 1
         return HttpResponse(json.dumps(data))
     return render(request, 'trading.html', {'stock_nums': stock_nums})

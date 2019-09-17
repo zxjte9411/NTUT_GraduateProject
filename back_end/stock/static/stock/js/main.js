@@ -82,6 +82,32 @@ $(() => {
         })
     }
 
+    function show_image(action_url) {
+        $.ajaxSetup({
+            url: action_url,
+            type: 'POST',
+            global: false,
+            dataType: 'json',
+        })
+
+        $.ajax({
+            data: {
+                csrfmiddlewaretoken: $("*[name='csrfmiddlewaretoken']").val(),
+                stock_num: $("#stock_num").val()
+            },
+            success: function (data) {
+                if(data.status == 1) {
+                    $("#line_graph").attr('src', data.img_url)
+                }
+            },
+            error: function (XMLHttpRequest, _ajaxOptions, _errorThrown) {
+                console.log(XMLHttpRequest.status)
+            }
+        })
+    }
+
+
+
     $("#button_submit_withdraw").click(function () {
         $(".loader").show()
         $("#result").hide()
@@ -91,5 +117,9 @@ $(() => {
         $(".loader").show()
         $("#dataTable").hide()
         update_view_of_detail("/withdraw/detail")
+    })
+    $("#button_submit_line_graph").click(function () {
+        show_image("/trading")
+        
     })
 })
