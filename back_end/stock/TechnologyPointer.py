@@ -77,19 +77,17 @@ def get_DMI(priceData, period=14):
         TR.append(max(abs(DMI['high'][i]-DMI['low'][i]),
                                abs(DMI['high'][i]-DMI['close'][i+1]),
                                abs(DMI['close'][i+1]-DMI['low'][i])))
+        # 同一天的 +DM 與 -DM 兩數值相比，較小者設定為 0，兩數若相同則兩數皆設定為 0。
+        if plusDM[i] - negativeDM[i] > 0:
+            negativeDM[i] = 0.0
+        elif plusDM[i] - negativeDM[i] < 0:
+            plusDM[i] = 0.0
+        else:
+            plusDM[i] = 0.0
+            negativeDM[i] = 0.0
     DMI["+DM"] = pd.Series(plusDM)
     DMI['-DM'] = pd.Series(negativeDM)
     DMI['TR'] = pd.Series(TR)
-
-    # 同一天的 +DM 與 -DM 兩數值相比，較小者設定為 0，兩數若相同則兩數皆設定為 0。
-    for i in range(len(DMI)-1):
-        if DMI['+DM'][i] - DMI['-DM'][i] > 0:
-            DMI.loc[i, '-DM'] = 0.0
-        elif DMI['+DM'][i] - DMI['-DM'][i] < 0:
-            DMI.loc[i, '+DM'] = 0.0
-        else:
-            DMI.loc[i, '+DM'] = 0.0
-            DMI.loc[i, '-DM'] = 0.0
 
     # 計算方向指標
     # +ADMt = +ADMt-1 +（+DMt - +ADMt-1）/ n
@@ -106,8 +104,8 @@ def get_DMI(priceData, period=14):
     DMI['ATR'] = np.zeros((len(DMI),))
     DMI['+DI'] = np.zeros((len(DMI),))
     DMI['-DI'] = np.zeros((len(DMI),))
-    DMI['DX'] = np.zeros((len(DMI),))
-    DMI['ADX'] = np.zeros((len(DMI),))
+    # DMI['DX'] = np.zeros((len(DMI),))
+    # DMI['ADX'] = np.zeros((len(DMI),))
     DMI.loc[len(DMI)-1, '+ADM'] = round(sum(DMI['+DM'][:period])/period, 3)
     DMI.loc[len(DMI)-1, '-ADM'] = round(sum(DMI['-DM'][:period])/period, 3)
     DMI.loc[len(DMI)-1, 'ATR'] = round(sum(DMI['TR'][:period])/period, 3)
