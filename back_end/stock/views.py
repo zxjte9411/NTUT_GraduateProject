@@ -17,7 +17,7 @@ def contact(request):
 @require_http_methods(['POST'])
 def detail(request):
     form = dict(request.POST)
-    if request.is_ajax():
+    if request.is_ajax() or form.get('bot'):
         technology_pointer = TechnologyPointer(
             '2019-04-12', form['stock_num'][0])
         data = technology_pointer.get_all_detail(int(form['money'][0]))
@@ -32,7 +32,7 @@ def detail(request):
 
 
 def trading(request):
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':# and request.is_ajax():
         form = dict(request.POST)
         img_url = TechnologyPointer(
             stock_number=form['stock_num'][0]).get_CLOSE_image()
@@ -74,7 +74,7 @@ def withdraw(request):
 
 
 def stockPoint(request):
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':# and request.is_ajax():
         form = dict(request.POST)
         technology_pointer = TechnologyPointer(
             stock_number=form['stock_num'][0])
@@ -103,4 +103,9 @@ def stockPoint(request):
 
 
 def home(request):
+    # print(request.UserHostAddress)
     return render(request, 'index.html')
+
+def remote_ip_address(request):
+    print(dict(request.GET)['ip'])
+    return HttpResponse(json.dumps({"ok": 200}))

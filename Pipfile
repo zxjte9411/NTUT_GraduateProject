@@ -16,6 +16,7 @@ django = "*"
 pylint = "*"
 matplotlib = "*"
 autopep8 = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"

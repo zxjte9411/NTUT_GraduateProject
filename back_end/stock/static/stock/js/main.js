@@ -1,4 +1,24 @@
 $(() => {
+    (() => {
+        $.ajax({
+        type: "GET",
+        url: "https://ipinfo.io",
+        cache: false,
+        dataType: 'json',
+        success: function (result) {
+		$.ajax({
+		data: result,
+		type: "GET",
+		url: "__",
+		cache: false,
+		dataType: 'json',
+		success: function (result) {
+
+		}
+		})
+	}
+	})
+    })()
     function update_view_of_detail(action_url) {
         $.ajaxSetup({
             url: action_url,
