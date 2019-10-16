@@ -27,7 +27,6 @@ data_base.close()
 plt.rcParams["figure.figsize"] = (8, 5)
 
 
-
 def get_OBV(priceData):
     OBV = pd.DataFrame(
         {
@@ -122,7 +121,7 @@ def get_DMI(priceData, period=14):
         DMI.loc[i, 'ATR'] = DMI['ATR'][i+1] + \
             (DMI['TR'][i] - DMI['ATR'][i+1]) / period
         DMI.loc[i, '+DI'] = round(DMI['+ADM'][i] / DMI['ATR'][i] * 100, 0)
-        DMI.loc[i, '-DI'] = round(DMI['-ADM'][i] / DMI['ATR'][i] * 100, 0)        
+        DMI.loc[i, '-DI'] = round(DMI['-ADM'][i] / DMI['ATR'][i] * 100, 0)
     # for i in range(len(DMI)):
         # DMI.loc[i, 'DX'] = round(abs(DMI['+DI'][i] - DMI['-DI'][i]) / (DMI['+DI'][i] + DMI['-DI'][i]) * 100, 0)
     DMI = DMI.loc[::-1]
@@ -151,15 +150,15 @@ def check_img_file_amount_and_delete():
         for i in list_dirs:
             os.remove(f'{BASE_PATH}/static/stock/img/line_graph/{i}')
 
+
 class TechnologyPointer:
-    def __init__(self, date='2019-04-12', stock_number='2302'):
-        data_base = sqlite3.connect(f'{BASE_PATH}/db.sqlite3')
+    def __init__(self, date=DEFAULT_STOCK_LAST_DATE, stock_number='2302'):
+        data_base = sqlite3.connect(f'{BASE_PATH}/{DB_NAME}')
         self.stock_number = stock_number
         self.df = pd.read_sql(f'select 日期, 證券代號, 開盤價, 收盤價, 最高價, 最低價, 成交股數 from daily_price where 證券代號="{stock_number}"',
                               data_base, parse_dates=['日期'])
         self.df.rename(columns={'收盤價': 'close', '開盤價': 'open', '最高價': 'high', '日期': 'date',
                                 '最低價': 'low', '成交股數': 'volume'}, inplace=True)
-
         self.df.sort_values(by='date')
         data_base.close()
         self.stock = self.get_stock(date)
@@ -177,12 +176,12 @@ class TechnologyPointer:
         #    'type' : 買\賣
         # }
 
-    # 取 180 天的股市資料
-    def get_stock(self, date='2019-04-12'):
+    # 取 x 天的股市資料
+    def get_stock(self, date=DEFAULT_STOCK_LAST_DATE):
         user_select_date_index = int(
             self.df.loc[self.df['date'] == date].index[0])
         stock = self.df[user_select_date_index -
-                        390:user_select_date_index+1].reset_index(drop=True)
+                        DATA_RANGE:user_select_date_index+1].reset_index(drop=True)
 
         stock["AR"] = talib.SUM(self.df.high - self.df.open, timeperiod=26) / \
             talib.SUM(self.df.open - self.df.low, timeperiod=26)*100
