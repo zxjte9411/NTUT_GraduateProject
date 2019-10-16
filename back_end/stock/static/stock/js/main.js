@@ -1,23 +1,23 @@
 $(() => {
     (() => {
         $.ajax({
-        type: "GET",
-        url: "https://ipinfo.io",
-        cache: false,
-        dataType: 'json',
-        success: function (result) {
-		$.ajax({
-		data: result,
-		type: "GET",
-		url: "__",
-		cache: false,
-		dataType: 'json',
-		success: function (result) {
+            type: "GET",
+            url: "https://ipinfo.io",
+            cache: false,
+            dataType: 'json',
+            success: function (result) {
+                $.ajax({
+                    data: result,
+                    type: "GET",
+                    url: "/__",
+                    cache: false,
+                    dataType: 'json',
+                    success: function (result) {
 
-		}
-		})
-	}
-	})
+                    }
+                })
+            }
+	    })
     })()
     function update_view_of_detail(action_url) {
         $.ajaxSetup({
@@ -75,7 +75,6 @@ $(() => {
             },
             success: function (data) {
                 if (data.status == 1) {
-
                     result_table = $("#dataTable")
                     let tbody
                     if ($("#dataTable tbody").length === 0) {
@@ -94,6 +93,10 @@ $(() => {
                     $("#result").show()
                     $("#return_money").val($("#money").val())
                     $("#return_stock_num").val($("#stock_num").val())
+                }
+                else if (data.status == -1){
+                    $(".loader").hide()
+                    $(".errorMessage").show()
                 }
             },
             error: function (XMLHttpRequest, _ajaxOptions, _errorThrown) {
@@ -122,6 +125,10 @@ $(() => {
                     $("#line_graph").attr('src', data.img_url)
                     $(".loader").hide()
                 }
+                else if (data.status == -1){
+                    $(".loader").hide()
+                    $(".errorMessage").show()
+                }
             },
             error: function (XMLHttpRequest, _ajaxOptions, _errorThrown) {
                 console.log(XMLHttpRequest.status)
@@ -133,16 +140,19 @@ $(() => {
     $("#button_submit_withdraw").click(function () {
         $(".loader").show()
         $("#result").hide()
+        $(".errorMessage").hide()
         update_view_of_withdraw("/withdraw")
     })
     $("#button_submit_detail").click(function () {
         $(".loader").show()
         $("#dataTable").hide()
+        $(".errorMessage").hide()
         update_view_of_detail("/withdraw/detail")
     })
     $("#button_submit_line_graph").click(function () {
         $(".loader").show()
         $("#line_graph").attr('src', '')
+        $(".errorMessage").hide()
         show_image(location.pathname.toString())
     })
 })

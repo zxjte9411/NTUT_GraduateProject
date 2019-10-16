@@ -32,12 +32,14 @@ def detail(request):
 
 
 def trading(request):
-    if request.method == 'POST':# and request.is_ajax():
+    if request.method == 'POST':  # and request.is_ajax():
         form = dict(request.POST)
-        img_url = TechnologyPointer(
-            stock_number=form['stock_num'][0]).get_CLOSE_image()
-        # technology_pointer = TechnologyPointer('2019-04-12', form['stock_num'][0])
-        # data = technology_pointer.get_all_detail()
+        try:
+            img_url = TechnologyPointer(
+                stock_number=form['stock_num'][0]).get_CLOSE_image()
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps({'status': -1}))
         data = {'img_url': img_url, 'status': 1}
         return HttpResponse(json.dumps(data))
     return render(request, 'trading.html', {'stock_nums': stock_nums})
@@ -46,9 +48,12 @@ def trading(request):
 def withdraw(request):
     if request.method == 'POST':
         form = dict(request.POST)
-        technology_pointer = TechnologyPointer(
-            '2019-04-12', form['stock_num'][0])
-
+        try:
+            technology_pointer = TechnologyPointer(
+                DEFAULT_STOCK_LAST_DATE, form['stock_num'][0])
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps({'status': -1}))
         data = {
             'status': 1,
             'pointers': [
@@ -69,15 +74,18 @@ def withdraw(request):
                 {'pointer': 'MA', 'value': f"{round(technology_pointer.get_MA_profit(int(form['money'][0]))*100, 2)}%"}]
         }
         return HttpResponse(json.dumps(data))
-        # return render(request, 'resulr.html', {'data': data})
     return render(request, 'withdraw.html', {'stock_nums': stock_nums})
 
 
 def stockPoint(request):
-    if request.method == 'POST':# and request.is_ajax():
+    if request.method == 'POST':  # and request.is_ajax():
         form = dict(request.POST)
-        technology_pointer = TechnologyPointer(
-            stock_number=form['stock_num'][0])
+        try:
+            technology_pointer = TechnologyPointer(
+                date=DEFAULT_STOCK_LAST_DATE, stock_number=form['stock_num'][0])
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps({'status': -1}))
         img_url = ''
         if form['tptype'][0] == 'OBV':
             img_url = technology_pointer.get_OBV_image()
@@ -103,8 +111,8 @@ def stockPoint(request):
 
 
 def home(request):
-    # print(request.UserHostAddress)
     return render(request, 'index.html')
+
 
 def remote_ip_address(request):
     print(dict(request.GET)['ip'])
