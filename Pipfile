@@ -17,6 +17,11 @@ pylint = "*"
 matplotlib = "*"
 autopep8 = "*"
 gunicorn = "*"
+telepot = "*"
+telegram = "*"
+telebot = "*"
+python-telegram-bot = "*"
+pytelegrambotapi = "*"
 
 [requires]
 python_version = "3.7"
