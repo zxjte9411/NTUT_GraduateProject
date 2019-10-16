@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 
-from .TechnologyPointer import TechnologyPointer, stock_nums
+from .TechnologyPointer import TechnologyPointer, stock_nums, DEFAULT_STOCK_LAST_DATE
 import pandas as pd
 import json
 
@@ -19,12 +19,12 @@ def detail(request):
     form = dict(request.POST)
     if request.is_ajax() or form.get('bot'):
         technology_pointer = TechnologyPointer(
-            '2019-04-12', form['stock_num'][0])
+            DEFAULT_STOCK_LAST_DATE, form['stock_num'][0])
         data = technology_pointer.get_all_detail(int(form['money'][0]))
         data['status'] = 1
         return HttpResponse(json.dumps(data))
     technology_pointer = TechnologyPointer(
-        '2019-04-12', form['return_stock_num'][0])
+        DEFAULT_STOCK_LAST_DATE, form['return_stock_num'][0])
     data = technology_pointer.get_all_detail(int(form['return_money'][0]))
     money = int(form['return_money'][0])
     stock_num = form['return_stock_num'][0]
