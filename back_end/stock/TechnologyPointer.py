@@ -12,10 +12,15 @@ from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-
-data_base = sqlite3.connect(f'{BASE_PATH}/db.sqlite3')
+DATA_RANGE = 390
+plt.rcParams["figure.figsize"] = (8, 5)
+DB_NAME = 'db.sqlite3'
+data_base = sqlite3.connect(f'{BASE_PATH}/{DB_NAME}')
 stock_nums = pd.read_sql(
     'select DISTINCT 證券代號 from daily_price ORDER BY 證券代號', data_base)['證券代號'].values
+DEFAULT_STOCK_LAST_DATE = pd.read_sql(
+    'select DISTINCT 日期 from daily_price ORDER BY 日期 DESC limit 0, 1', data_base)['日期'].values[0].split(' ')[0]
+
 # close data base connect
 data_base.close()
 
